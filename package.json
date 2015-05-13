@@ -1,0 +1,30 @@
+{
+  "name": "coulor-chef",
+  "version": "1.0.0",
+  "description": "server for colour-chef",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/squ1d123/Colour-Chef.git"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "keywords": [
+    "heroku",
+    "server"
+  ],
+  "author": "Sameer Magan",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.5.3",
+    "express": "^4.9.8"
+  },
+  "bugs": {
+    "url": "https://github.com/squ1d123/Colour-Chef/issues"
+  },
+  "homepage": "https://github.com/squ1d123/Colour-Chef"
+}
