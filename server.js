@@ -54,19 +54,19 @@ app.get('/',function(req,res){
       res.sendfile("index.html");
 });
 
+app.post('/api/photo',function(req,res){
+  if(done==true){
+    console.log(req.files);
+    res.end("File uploaded.");
+  }
+});
+
 app.post('/login', function(req, res){
   console.log(req.body);
   if(!req.body.hasOwnProperty('user') || !req.body.hasOwnProperty('password')){
     res.statusCode = 400;
     return res.send('Error 400: Post syntax incorrect.')
   }
-
-  app.post('/api/photo',function(req,res){
-  if(done==true){
-    console.log(req.files);
-    res.end("File uploaded.");
-  }
-});
 
   //executing sql query to retieve encrypted password
   query = client.query('SELECT password from logins where username = $1', [req.body.user]);
