@@ -49,4 +49,4 @@ password('password1').hash(function(error, hash) {
 
 });
 
-query.on('end', function(result) { client.end(); });
+// query.on('end', function(result) { client.end(); });
