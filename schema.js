@@ -32,13 +32,15 @@ query.on('error', function(error){
   throw new Error(' failed on :' + i);
 });
 
-var password1 = password('password1').hash(function(error, hash) {
+var password1 = function(){
+  password('password1').hash(function(error, hash) {
     if(error){
         throw new Error('Something went wrong!');
     }
     console.log('in password1');
     return hash;
-});
+  });
+}
 
 console.log(password1);  
 // Store hash (incl. algorithm, iterations, and salt) 
