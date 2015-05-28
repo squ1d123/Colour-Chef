@@ -29,7 +29,7 @@ query.on('end', function(result){
 
 //error checking
 query.on('error', function(error){
-  throw new Error('user table not created';
+  throw new Error('user table not created-> ' + error);
 });
 
 // password('password1').hash(function(error, hash) {
