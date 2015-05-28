@@ -38,7 +38,7 @@ password('password1').hash(function(error, hash) {
   }
   console.log('in password1');
   // Store hash (incl. algorithm, iterations, and salt) 
-  query = client.query('Insert into logins(username, password) values($1, $2)', ['sam', password1]);
+  query = client.query('Insert into logins(username, password) values($1, $2)', ['sam', hash]);
   query.on('end', function(result) { client.end(); });
 
   query.on('error', function(error){
