@@ -57,7 +57,7 @@ app.get('/',function(req,res){
 app.post('/api/photo',function(req,res){
   if(done==true){
     console.log(req.files);
-    res.end("To view image on server https://murmuring-cliffs-3537.herokuapp.com/" + req.files.path);
+    res.end("To view image on server https://murmuring-cliffs-3537.herokuapp.com/" + req.files.userPhoto.path);
   }
 });
 
