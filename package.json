@@ -2,9 +2,9 @@
   "name": "coulor-chef",
   "version": "1.0.0",
   "description": "server for colour-chef",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,7 @@
 // use the express middleware
 var express = require('express');
 var password = require('password-hash-and-salt');
+var multer  = require('multer');
 
 var pg = require('pg').native
   , connectionString = process.env.DATABASE_URL
@@ -21,6 +22,8 @@ var cors = require('cors');
 // instantiate app
 var app = express();
 
+var done=false;
+
 // make sure we can parse JSON
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
@@ -30,12 +33,40 @@ app.use(express.static(__dirname));
 // make sure we use CORS to avoid cross domain problems
 app.use(cors());
 
+/*Configure the multer.*/
+
+app.use(multer({ dest: './uploads/',
+ rename: function (fieldname, filename) {
+    return filename+Date.now();
+  },
+onFileUploadStart: function (file) {
+  console.log(file.originalname + ' is starting ...')
+},
+onFileUploadComplete: function (file) {
+  console.log(file.fieldname + ' uploaded to  ' + file.path)
+  done=true;
+}
+}));
+
+/*Handling routes.*/
+
+app.get('/',function(req,res){
+      res.sendfile("index.html");
+});
+
 app.post('/login', function(req, res){
   console.log(req.body);
   if(!req.body.hasOwnProperty('user') || !req.body.hasOwnProperty('password')){
     res.statusCode = 400;
     return res.send('Error 400: Post syntax incorrect.')
   }
+
+  app.post('/api/photo',function(req,res){
+  if(done==true){
+    console.log(req.files);
+    res.end("File uploaded.");
+  }
+});
 
   //executing sql query to retieve encrypted password
   query = client.query('SELECT password from logins where username = $1', [req.body.user]);
