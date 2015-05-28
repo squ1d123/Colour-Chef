@@ -1,3 +1,4 @@
+var password = require('password-hash-and-salt');
 var pg = require('pg').native
   , connectionString = process.env.DATABASE_URL
   , client
@@ -29,6 +30,18 @@ query.on('end', function(result){
 //error checking
 query.on('error', function(error){
   throw new Error(' failed on :' + i);
+});
+
+password('password1').hash(function(error, hash) {
+    if(error){
+        throw new Error('Something went wrong!');
+    }
+    // Store hash (incl. algorithm, iterations, and salt) 
+    query = client.query('Insert into logins(username, password) values($1, $2)', ['sam', hash]);
+    query.on('error', function(error){
+        throw new Error('failed on inserting first val ->' + error);
+    });
+    console.log('in password2');
 });
 
 
