@@ -32,23 +32,19 @@ query.on('error', function(error){
   throw new Error(' failed on :' + i);
 });
 
-var password1 = function(){
-  password('password1').hash(function(error, hash) {
-    if(error){
-        throw new Error('Something went wrong!');
-    }
-    console.log('in password1');
-    return hash;
+password('password1').hash(function(error, hash) {
+  if(error){
+      throw new Error('Something went wrong!');
+  }
+  console.log('in password1');
+  // Store hash (incl. algorithm, iterations, and salt) 
+  query = client.query('Insert into logins(username, password) values($1, $2)', ['sam', password1]);
+  query.on('end', function(result) { client.end(); });
+
+  query.on('error', function(error){
+      throw new Error('failed on inserting first val ->' + error);
   });
-}
 
-console.log(password1());  
-// Store hash (incl. algorithm, iterations, and salt) 
-query = client.query('Insert into logins(username, password) values($1, $2)', ['sam', password1]);
-
-query.on('error', function(error){
-    throw new Error('failed on inserting first val ->' + error);
 });
-
 
 query.on('end', function(result) { client.end(); });
