@@ -38,7 +38,7 @@ app.post('/login', function(req, res){
   }
 
   //executing sql query to retieve encrypted password
-  query = client.query('SELECT password from users where username = $1', [req.body.user]);
+  query = client.query('SELECT password from logins where username = $1', [req.body.user]);
   console.log(req.body.user);
 
   query.on('row', function(result){
