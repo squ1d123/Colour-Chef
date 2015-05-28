@@ -70,6 +70,7 @@ app.post('/login', function(req, res){
 });
 
 
-app.listen(app.get('port'), function() {
-  console.log("Node app is running at localhost:" + app.get('port'));
+// use PORT set as an environment variable
+var server = app.listen(process.env.PORT, function() {
+    console.log('Listening on port %d', server.address().port);
 });
