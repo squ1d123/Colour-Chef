@@ -42,7 +42,7 @@ var password1 = function(){
   });
 }
 
-console.log(password1);  
+console.log(password1());  
 // Store hash (incl. algorithm, iterations, and salt) 
 query = client.query('Insert into logins(username, password) values($1, $2)', ['sam', password1]);
 
