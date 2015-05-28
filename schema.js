@@ -30,6 +30,6 @@ query.on('end', function(result){
 query.on('error', function(error){
   throw new Error(' failed on :' + i);
 });
-}
+
 
 query.on('end', function(result) { client.end(); });
