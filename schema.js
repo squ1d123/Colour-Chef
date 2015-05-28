@@ -19,9 +19,10 @@ client.connect();
 // query.on('error', function(error){
 //   throw new Error('Table not created -> ' + error);
 // });
+var queryString = "Drop table if exists users; create table users (id int primary key, name varchar(80), age int, difficulty varchar(6), constraint chk_diff check (difficulty in ('easy', 'medium', 'hard')) )";
 
-query = client.query('Drop table if exists users; create table users (id int primary key, name varchar(80), age int, difficulty varchar(6), constraint chk_diff check (difficulty in ($1, $2, $3)) )', ['easy', 'medium', 'hard']);
-
+// query = client.query('Drop table if exists users; create table users (id int primary key, name varchar(80), age int, difficulty varchar(6), constraint chk_diff check (difficulty in ($1, $2, $3)) )', ['easy', 'medium', 'hard']);
+query = client.query(queryString);
 //if successfull
 query.on('end', function(result){
   console.log('Creted Table users ' + result);
