@@ -14,10 +14,18 @@ create_user_table();
 query.on('end', function(result) { client.end(); });
 
 
+/*
+  creates the freinds table
+*/
+function create_freinds_table () {
+
+}
 
 
 
-
+/*
+  creates the user login details
+*/
 function create_user_table(){
 //creating login table structure
 query = client.query('Drop table if exists logins; CREATE TABLE logins (id serial PRIMARY KEY, username varchar(80) UNIQUE NOT NULL, password varchar(500) NOT NULL)');
