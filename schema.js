@@ -19,6 +19,19 @@ query.on('end', function(result) { client.end(); });
 */
 function create_freinds_table () {
 
+  //creating freinds table structure
+  query = client.query('Drop table if exists freinds; CREATE TABLE freinds 
+    (user integer NOT NULL, freind integer NOT NULL, CONSTRAINT user FORGEIGN KEY (id) REFERENCES users (id),CONSTRAINT freind FORGEIGN KEY (id) REFERENCES users (id), )');
+
+  //if successfull
+  query.on('end', function(result){
+  console.log('Creted Table login');
+  });
+
+  //error checking
+  query.on('error', function(error){
+   throw new Error('Table not created -> ' + error);
+  });
 }
 
 
@@ -62,8 +75,7 @@ password('password1').hash(function(error, hash) {
   console.log('in password1');
   // Store hash (incl. algorithm, iterations, and salt) 
   query = client.query('Insert into logins(username, password) values($1, $2)', ['sam', hash]);
-  query.on('end', function(result) { client.end(); });
-
+  
   query.on('error', function(error){
       throw new Error('failed on inserting first val ->' + error);
   });
