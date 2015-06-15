@@ -43,17 +43,40 @@ function create_users_table () {
 
 
 /*
+  creates a project table
+*/
+function create_project_table () {
+
+  //creating projects table structure
+  query = client.query('Drop table if exists projects; CREATE TABLE projects 
+    (project_id serial PRIMARY KEY, user_id integer, project_name VARCHAR, private boolean DEFAULT true, CONSTRAINT user_id FORGEIGN KEY (user_id) REFERENCES users (id))');
+
+  //if successfull
+  query.on('end', function(result){
+  console.log('Creted Table projects');
+  });
+
+  //error checking
+  query.on('error', function(error){
+   throw new Error('Table not created -> ' + error);
+  });
+}
+
+
+
+
+/*
   creates the freinds table
 */
 function create_freinds_table () {
 
   //creating freinds table structure
   query = client.query('Drop table if exists freinds; CREATE TABLE freinds 
-    (user integer NOT NULL, freind integer NOT NULL, CONSTRAINT user FORGEIGN KEY (id) REFERENCES users (id),CONSTRAINT freind FORGEIGN KEY (id) REFERENCES users (id), )');
+    (user integer NOT NULL, freind integer NOT NULL, CONSTRAINT user FORGEIGN KEY (id) REFERENCES users (id),CONSTRAINT freind FORGEIGN KEY (id) REFERENCES users (id))');
 
   //if successfull
   query.on('end', function(result){
-  console.log('Creted Table login');
+  console.log('Creted Table freinds');
   });
 
   //error checking
