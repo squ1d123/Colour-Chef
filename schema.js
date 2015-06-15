@@ -7,6 +7,90 @@ var pg = require('pg').native
 client = new pg.Client(connectionString);
 client.connect();
 
+
+create_users_table ();
+
+create_login_table();
+
+create_freinds_table();
+
+query.on('end', function(result) { client.end(); });
+
+
+
+
+
+
+/*
+  creates table for user infomation
+*/
+function create_users_table () {
+
+  var queryString = "Drop table if exists users; create table users (id int primary key, name varchar(80), age int, difficulty varchar(6), constraint chk_diff check (difficulty in ('easy', 'medium', 'hard')) )";
+  query = client.query(queryString);
+  //if successfull
+  query.on('end', function(result){
+    console.log('Creted Table users ' + result);
+  });
+
+  //error checking
+  query.on('error', function(error){
+    throw new Error('user table not created-> ' + error);
+  });
+
+}
+
+
+
+/*
+  creates a project table
+*/
+function create_project_table () {
+
+  //creating projects table structure
+  query = client.query('Drop table if exists projects; CREATE TABLE projects 
+    (project_id serial PRIMARY KEY, user_id integer, project_name VARCHAR, private boolean DEFAULT true, CONSTRAINT user_id FORGEIGN KEY (user_id) REFERENCES users (id))');
+
+  //if successfull
+  query.on('end', function(result){
+  console.log('Creted Table projects');
+  });
+
+  //error checking
+  query.on('error', function(error){
+   throw new Error('Table not created -> ' + error);
+  });
+}
+
+
+
+
+/*
+  creates the freinds table
+*/
+function create_freinds_table () {
+
+  //creating freinds table structure
+  query = client.query('Drop table if exists freinds; CREATE TABLE freinds 
+    (user integer NOT NULL, freind integer NOT NULL, CONSTRAINT user FORGEIGN KEY (id) REFERENCES users (id),CONSTRAINT freind FORGEIGN KEY (id) REFERENCES users (id))');
+
+  //if successfull
+  query.on('end', function(result){
+  console.log('Creted Table freinds');
+  });
+
+  //error checking
+  query.on('error', function(error){
+   throw new Error('Table not created -> ' + error);
+  });
+}
+
+
+
+/*
+  creates the user login details
+*/
+function create_login_table(){
 //creating login table structure
 query = client.query('Drop table if exists logins; CREATE TABLE logins (id serial PRIMARY KEY, username varchar(80) UNIQUE NOT NULL, password varchar(500) NOT NULL)');
 
@@ -20,20 +104,6 @@ query.on('error', function(error){
   throw new Error('Table not created -> ' + error);
 });
 
-// client.query('Drop table if exists users'); 
-//query = client.query('create table users (id int primary key, name varchar(80), age int, difficulty varchar(6), constraint chk_diff check (difficulty in ($1, $2, $3)) )', ['easy', 'medium', 'hard']);
-
-var queryString = "Drop table if exists users; create table users (id int primary key, name varchar(80), age int, difficulty varchar(6), constraint chk_diff check (difficulty in ('easy', 'medium', 'hard')) )";
-query = client.query(queryString);
-//if successfull
-query.on('end', function(result){
-  console.log('Creted Table users ' + result);
-});
-
-//error checking
-query.on('error', function(error){
-  throw new Error('user table not created-> ' + error);
-});
 
 password('password1').hash(function(error, hash) {
   if(error){
@@ -42,12 +112,11 @@ password('password1').hash(function(error, hash) {
   console.log('in password1');
   // Store hash (incl. algorithm, iterations, and salt) 
   query = client.query('Insert into logins(username, password) values($1, $2)', ['sam', hash]);
-  query.on('end', function(result) { client.end(); });
-
+  
   query.on('error', function(error){
       throw new Error('failed on inserting first val ->' + error);
   });
 
 });
+}
 
-// query.on('end', function(result) { client.end(); });
