@@ -12,7 +12,7 @@ create_users_table ();
 
 create_login_table();
 
-create_freinds_table();
+create_friends_table();
 
 query.on('end', function(result) { client.end(); });
 
@@ -66,17 +66,17 @@ function create_project_table () {
 
 
 /*
-  creates the freinds table
+  creates the friends table
 */
-function create_freinds_table () {
+function create_friends_table () {
 
-  //creating freinds table structure
-  query = client.query('Drop table if exists freinds; CREATE TABLE freinds 
-    (user integer NOT NULL, freind integer NOT NULL, CONSTRAINT user FORGEIGN KEY (id) REFERENCES users (id),CONSTRAINT freind FORGEIGN KEY (id) REFERENCES users (id))');
+  //creating friends table structure
+  query = client.query('Drop table if exists friends; CREATE TABLE friends 
+    (user integer NOT NULL, friend integer NOT NULL, CONSTRAINT user FORGEIGN KEY (id) REFERENCES users (id),CONSTRAINT friend FORGEIGN KEY (id) REFERENCES users (id))');
 
   //if successfull
   query.on('end', function(result){
-  console.log('Creted Table freinds');
+  console.log('Creted Table friends');
   });
 
   //error checking

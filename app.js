@@ -22,6 +22,10 @@ function create_new_user (url,name,age,difficulty) {
 
 
 
+function add_friend (argument) {
+	// body...
+}
+
 
 
 
