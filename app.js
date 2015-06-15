@@ -3,7 +3,7 @@
 /*
 	trys to enter the user into the database.
 */
-function create_new_user (url,name,age,difficulty) {
+function create_new_user (url, name, age, difficulty) {
 	var Posturl = url+'/newUser'
     var newUser = { "name" : name, "age" : age, "difficulty" : difficulty };
 
@@ -21,8 +21,10 @@ function create_new_user (url,name,age,difficulty) {
 }
 
 
-
-function add_friend (argument) {
+/*
+	add friend to user
+*/
+function add_friend (url, user, friend, friend_code) {
 	// body...
 }
 

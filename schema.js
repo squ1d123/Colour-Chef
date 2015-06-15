@@ -26,7 +26,7 @@ query.on('end', function(result) { client.end(); });
 */
 function create_users_table () {
 
-  var queryString = "Drop table if exists users; create table users (id serial primary key, name varchar(80), age int, difficulty varchar(6), constraint chk_diff check (difficulty in ('easy', 'medium', 'hard')) )";
+  var queryString = "Drop table if exists users; create table users (id serial primary key, name varchar(80) NOT NULL,username varchar(80)  UNIQUE NOT NULL, age int NOT NULL, difficulty varchar(6) DEFAULT 'easy', friendCode VARCHAR  NOT NULL, constraint chk_diff check (difficulty in ('easy', 'medium', 'hard')) )";
   query = client.query(queryString);
   //if successfull
   query.on('end', function(result){
@@ -92,7 +92,7 @@ function create_friends_table () {
 */
 function create_login_table(){
 //creating login table structure
-query = client.query('Drop table if exists logins; CREATE TABLE logins (id serial PRIMARY KEY, username varchar(80) UNIQUE NOT NULL, password varchar(500) NOT NULL)');
+query = client.query('Drop table if exists logins; CREATE TABLE logins (id serial PRIMARY KEY, username varchar(80) UNIQUE NOT NULL, password varchar(500) NOT NULL, CONSTRAINT username FORGEIGN KEY (username) REFERENCES users (username))');
 
 //if successfull
 query.on('end', function(result){
