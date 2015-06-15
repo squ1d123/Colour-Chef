@@ -26,7 +26,7 @@ query.on('end', function(result) { client.end(); });
 */
 function create_users_table () {
 
-  var queryString = "Drop table if exists users; create table users (id int primary key, name varchar(80), age int, difficulty varchar(6), constraint chk_diff check (difficulty in ('easy', 'medium', 'hard')) )";
+  var queryString = "Drop table if exists users; create table users (id serial primary key, name varchar(80), age int, difficulty varchar(6), constraint chk_diff check (difficulty in ('easy', 'medium', 'hard')) )";
   query = client.query(queryString);
   //if successfull
   query.on('end', function(result){
