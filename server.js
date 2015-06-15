@@ -2,11 +2,12 @@
 var express = require('express');
 var password = require('password-hash-and-salt');
 var multer  = require('multer');
+var auth = require('./middleware/auth.js');
 
 var pg = require('pg').native
   , connectionString = process.env.DATABASE_URL
   , start = new Date()
-  , port = process.env.PORT
+  , port = process.env.PORT 
   , client
   , query;
 
@@ -84,7 +85,9 @@ app.post('/login', function(req, res){
           res.send('Error 401: wrong user or password');
         } else {
             //send bac confirmation
-            res.send('all verified');
+            // res.send('all verified');
+            console.log('adding token');
+            res.send(auth.addToken(result));
         }
     });
   });
@@ -102,6 +105,10 @@ app.post('/login', function(req, res){
 
 
 // use PORT set as an environment variable
-var server = app.listen(process.env.PORT, function() {
+// var server = app.listen(process.env.PORT, function() {
+//     console.log('Listening on port %d', server.address().port);
+// });
+
+var server = app.listen(50000, function() {
     console.log('Listening on port %d', server.address().port);
 });
