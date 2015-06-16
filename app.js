@@ -106,7 +106,7 @@ function delete_colour (url, users, colour) {
         
         if(result.error){
         	//error        	
-        }     
+        }
 
         //delete success
 
@@ -115,4 +115,11 @@ function delete_colour (url, users, colour) {
     });
 
 }
+
+//new projects
+
+
+
+
+//get project
 
