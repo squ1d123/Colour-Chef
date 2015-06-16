@@ -45,7 +45,7 @@ function add_friend (url, user, friend, friend_code) {
 
 
 /*
-	
+	adds colour to the users selection
 */
 function add_colour (url, user, rbg) {
   var Posturl = url+'/addColour';
@@ -66,5 +66,27 @@ function add_colour (url, user, rbg) {
 
 }
 
+
+
+/**/
+function get_colours (url, user) {
+	var GetUrl = url+'/getColours';
+
+	$.get(GetUrl, function(data) {
+
+		if(data.error){
+			//error
+		}
+
+
+		//put json into array.
+
+
+	});
+
+
+
+
+}
 
 
