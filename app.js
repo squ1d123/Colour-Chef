@@ -47,8 +47,23 @@ function add_friend (url, user, friend, friend_code) {
 /*
 	
 */
-function function_name (argument) {
-	// body...
+function add_colour (url, user, rbg) {
+  var Posturl = url+'/addColour';
+
+  var Colour = {"rgb":rgb};
+
+  $.post(Posturl,Colour, function(data) {
+
+      if(data.error){
+        //error in request or in database insert
+
+        //false
+      }
+
+
+      //true
+    }, 'json');
+
 }
 
 
