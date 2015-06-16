@@ -41,6 +41,20 @@ function create_users_table () {
 }
 
 
+function create_avalible_colours_table () {
+  var queryString = "Drop table if exists AvColours; create table AvColours (user_id integer REFERENCES users (id), rgb VARCHAR)";
+  query = client.query(queryString);
+  //if successfull
+  query.on('end', function(result){
+    console.log('Creted Table AvColours ' + result);
+  });
+
+  //error checking
+  query.on('error', function(error){
+    throw new Error('AvColours table not created-> ' + error);
+  });
+}
+
 
 /*
   creates a project table
@@ -49,7 +63,7 @@ function create_project_table () {
 
   //creating projects table structure
   query = client.query('Drop table if exists projects; CREATE TABLE projects 
-    (project_id serial PRIMARY KEY, user_id integer, project_name VARCHAR, private boolean DEFAULT true, CONSTRAINT user_id FORGEIGN KEY (user_id) REFERENCES users (id))');
+    (project_id serial PRIMARY KEY, user_id integer REFERENCES users (id), project_name VARCHAR, private boolean DEFAULT true)');
 
   //if successfull
   query.on('end', function(result){
@@ -72,7 +86,7 @@ function create_friends_table () {
 
   //creating friends table structure
   query = client.query('Drop table if exists friends; CREATE TABLE friends 
-    (user integer NOT NULL, friend integer NOT NULL, CONSTRAINT user FORGEIGN KEY (id) REFERENCES users (id),CONSTRAINT friend FORGEIGN KEY (id) REFERENCES users (id))');
+    (user integer NOT NULL REFERENCES users (id), friend integer NOT NULL REFERENCES users (id))');
 
   //if successfull
   query.on('end', function(result){
