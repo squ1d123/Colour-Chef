@@ -123,3 +123,6 @@ function delete_colour (url, users, colour) {
 
 //get project
 
+
+
+//get friends project
