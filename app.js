@@ -87,7 +87,9 @@ function get_colours (url, user) {
 }
 
 
-/**/
+/*
+	method to delete a colour the user has avalible
+*/
 function delete_colour (url, users, colour) {
 	//use all in json if delete all or the rbg of the individual colour
 	
