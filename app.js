@@ -63,12 +63,13 @@ function add_colour (url, user, rbg) {
 
       //true
     }, 'json');
-
 }
 
 
 
-/**/
+/*
+	gets the colours the user has made
+*/
 function get_colours (url, user) {
 	var GetUrl = url+'/getColours';
 
@@ -83,10 +84,33 @@ function get_colours (url, user) {
 
 
 	});
-
-
-
-
 }
 
+
+/**/
+function delete_colour (url, users, colour) {
+	//use all in json if delete all or the rbg of the individual colour
+	
+	var DelUrl = url+'/deleteColour'
+
+	var DelColour = {"colour" : colour};
+
+	$.ajax({
+      url: DelUrl,
+      type: 'DELETE',
+      dataType: json,
+      data: DelColour,
+      success:function(result){
+        
+        if(result.error){
+        	//error        	
+        }     
+
+        //delete success
+
+      }
+
+    });
+
+}
 
