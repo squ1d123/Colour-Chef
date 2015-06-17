@@ -43,9 +43,9 @@ function setToken () {
 /*
 	trys to enter the user into the database.
 */
-function create_new_user (url, name, age, difficulty) {
+function create_new_user (url, name, username, password, age, difficulty) {
 	var Posturl = url+'/newUser';
-    var newUser = { "name" : name, "age" : age, "difficulty" : difficulty };
+    var newUser = { "name" : name,"username" : username,"password" : password, "age" : age, "difficulty" : difficulty };
 
     $.post(Posturl,newUser, function(data) {
 
