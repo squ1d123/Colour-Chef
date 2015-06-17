@@ -8,20 +8,27 @@ function login (username, password) {
 	var Posturl = url+'/login';
 	var loginDetails = {"user" : username, "password" : password};
 
-	$.post(Posturl,loginDetails, function(data) {
 
-      //error
-      if(/*error*/){
+	$.ajax({
+      url: Posturl,
+      type: 'Post',
+      dataType: json,
+      data: loginDetails,
+      success:function(result){
+        
+        //success
+         window.localStorage.setItem('token', data.token);
+
+      	setToken();
+
+      },
+      error: function (error) {
+
+      	// error
 
       }
 
-
-      //true
-      window.localStorage.setItem('token', data.token);
-
-      setToken();
-
-    }, 'json');
+    });
 }
 
 
@@ -47,17 +54,23 @@ function create_new_user (url, name, username, password, age, difficulty) {
 	var Posturl = url+'/newUser';
     var newUser = { "name" : name,"username" : username,"password" : password, "age" : age, "difficulty" : difficulty };
 
-    $.post(Posturl,newUser, function(data) {
+    $.ajax({
+      url: Posturl,
+      type: 'Post',
+      dataType: json,
+      data: newUser,
+      success:function(result){
+        
+        //success
 
-      if(/*error*/){
-        //error in request or in database insert
+      },
+      error: function (error) {
 
-        //false
+      	// error
+
       }
 
-
-      //true
-    }, 'json');
+    });
 }
 
 
@@ -69,17 +82,23 @@ function add_friend (url, user, friend, friend_code) {
 
 	var friendRequest = {"user" : user, "friend" : friend, "code" : friend_code};
 
-	$.post(Posturl,friendRequest, function(data) {
+	$.ajax({
+      url: Posturl,
+      type: 'Post',
+      dataType: json,
+      data: friendRequest,
+      success:function(result){
+        
+        //success
 
-      if(/*error*/){
-        //error in request or in database insert
+      },
+      error: function (error) {
 
-        //false
+      	// error
+
       }
 
-
-      //true
-    }, 'json');
+    });
 
 }
 
@@ -92,17 +111,23 @@ function add_colour (url, user, rbg) {
 
   var Colour = {"rgb":rgb};
 
-  $.post(Posturl,Colour, function(data) {
+  $.ajax({
+      url: Posturl,
+      type: 'POST',
+      dataType: json,
+      data: Colour,
+      success:function(result){
+        
+        //success
 
-      if(/*error*/){
-        //error in request or in database insert
+      },
+      error: function (error) {
 
-        //false
+      	// error
+
       }
 
-
-      //true
-    }, 'json');
+    });
 }
 
 
@@ -112,18 +137,25 @@ function add_colour (url, user, rbg) {
 */
 function get_colours (url, user) {
 	var GetUrl = url+'/getColours';
+	var UserJson = {"user" : user};
 
-	$.get(GetUrl, function(data) {
+	$.ajax({
+      url: GetUrl,
+      type: 'GET',
+      dataType: json,
+      data: UserJson,
+      success:function(result){
+        
+        //success
 
-		if(/*error*/){
-			//error
-		}
+      },
+      error: function (error) {
 
+      	// error
 
-		//put json into array.
+      }
 
-
-	});
+    });
 }
 
 
@@ -144,11 +176,12 @@ function delete_colour (url, users, colour) {
       data: DelColour,
       success:function(result){
         
-        if(/*error*/){
-        	//error        	
-        }
+        //success
 
-        //delete success
+      },
+      error: function (error) {
+
+      	// error
 
       }
 
