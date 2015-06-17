@@ -1,6 +1,46 @@
 
 
 /*
+	called to log the user into there account
+*/
+function login (username, password) {
+
+	var Posturl = url+'/login';
+	var loginDetails = {"user" : username, "password" : password};
+
+	$.post(Posturl,loginDetails, function(data) {
+
+      //error
+      if(/*error*/){
+
+      }
+
+
+      //true
+      window.localStorage.setItem('token', data.token);
+
+      setToken();
+
+    }, 'json');
+}
+
+
+/*
+	set the token header
+*/
+function setToken () {
+
+	$.ajaxSetup({
+      headers: {
+        'x-access-token': token
+      }
+    });
+
+}
+
+
+
+/*
 	trys to enter the user into the database.
 */
 function create_new_user (url, name, age, difficulty) {
