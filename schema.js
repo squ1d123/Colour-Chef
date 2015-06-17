@@ -12,7 +12,7 @@ create_users_table ();
 
 create_login_table();
 
-create_freinds_table();
+create_friends_table();
 
 query.on('end', function(result) { client.end(); });
 
@@ -26,7 +26,7 @@ query.on('end', function(result) { client.end(); });
 */
 function create_users_table () {
 
-  var queryString = "Drop table if exists users; create table users (id int primary key, name varchar(80), age int, difficulty varchar(6), constraint chk_diff check (difficulty in ('easy', 'medium', 'hard')) )";
+  var queryString = "Drop table if exists users; create table users (id serial primary key, name varchar(80) NOT NULL,username varchar(80)  UNIQUE NOT NULL, age int NOT NULL, difficulty varchar(6) DEFAULT 'easy', friendCode VARCHAR  NOT NULL, constraint chk_diff check (difficulty in ('easy', 'medium', 'hard')) )";
   query = client.query(queryString);
   //if successfull
   query.on('end', function(result){
@@ -40,6 +40,20 @@ function create_users_table () {
 
 }
 
+
+function create_avalible_colours_table () {
+  var queryString = "Drop table if exists AvColours; create table AvColours (user_id integer REFERENCES users (id), rgb VARCHAR)";
+  query = client.query(queryString);
+  //if successfull
+  query.on('end', function(result){
+    console.log('Creted Table AvColours ' + result);
+  });
+
+  //error checking
+  query.on('error', function(error){
+    throw new Error('AvColours table not created-> ' + error);
+  });
+}
 
 
 /*
@@ -65,16 +79,16 @@ function create_project_table () {
 
 
 /*
-  creates the freinds table
+  creates the friends table
 */
-function create_freinds_table () {
+function create_friends_table () {
 
   //creating freinds table structure
   query = client.query('Drop table if exists freinds; CREATE TABLE freinds (user integer NOT NULL, freind integer NOT NULL, CONSTRAINT user FORGEIGN KEY (id) REFERENCES users (id),CONSTRAINT freind FORGEIGN KEY (id) REFERENCES users (id))');
 
   //if successfull
   query.on('end', function(result){
-  console.log('Creted Table freinds');
+  console.log('Creted Table friends');
   });
 
   //error checking
@@ -90,7 +104,7 @@ function create_freinds_table () {
 */
 function create_login_table(){
 //creating login table structure
-query = client.query('Drop table if exists logins; CREATE TABLE logins (id serial PRIMARY KEY, username varchar(80) UNIQUE NOT NULL, password varchar(500) NOT NULL)');
+query = client.query('Drop table if exists logins; CREATE TABLE logins (id serial PRIMARY KEY, username varchar(80) UNIQUE NOT NULL, password varchar(500) NOT NULL, CONSTRAINT username FORGEIGN KEY (username) REFERENCES users (username))');
 
 //if successfull
 query.on('end', function(result){
