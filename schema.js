@@ -26,7 +26,7 @@ query.on('end', function(result) { client.end(); });
 */
 function create_users_table () {
 
-  var queryString = "Drop table if exists users; create table users (id serial primary key, name varchar(80) NOT NULL,username varchar(80)  UNIQUE NOT NULL, age int NOT NULL, difficulty varchar(6) DEFAULT 'easy', friendCode VARCHAR  NOT NULL, constraint chk_diff check (difficulty in ('easy', 'medium', 'hard')) )";
+  var queryString = "Drop table if exists users cascade; create table users (id serial primary key, name varchar(80) NOT NULL,username varchar(80)  UNIQUE NOT NULL, age int NOT NULL, difficulty varchar(6) DEFAULT 'easy', friendCode VARCHAR  NOT NULL, constraint chk_diff check (difficulty in ('easy', 'medium', 'hard')) )";
   query = client.query(queryString);
   //if successfull
   query.on('end', function(result){
@@ -62,7 +62,7 @@ function create_avalible_colours_table () {
 function create_project_table () {
 
   //creating projects table structure
-  query = client.query('Drop table if exists projects; CREATE TABLE projects (project_id serial PRIMARY KEY, user_id integer, project_name VARCHAR, private boolean DEFAULT true, CONSTRAINT user_id FORGEIGN KEY (user_id) REFERENCES users (id))');
+  query = client.query('Drop table if exists projects cascade; CREATE TABLE projects (project_id serial PRIMARY KEY, user_id integer, project_name VARCHAR, private boolean DEFAULT true, CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES users (id))');
 
   //if successfull
   query.on('end', function(result){
@@ -84,7 +84,7 @@ function create_project_table () {
 function create_friends_table () {
 
   //creating freinds table structure
-  query = client.query('Drop table if exists freinds; CREATE TABLE freinds (user integer NOT NULL, freind integer NOT NULL, CONSTRAINT user FORGEIGN KEY (id) REFERENCES users (id),CONSTRAINT freind FORGEIGN KEY (id) REFERENCES users (id))');
+  query = client.query('Drop table if exists freinds; CREATE TABLE freinds (username integer NOT NULL, freind integer NOT NULL, CONSTRAINT username FOREIGN KEY (id) REFERENCES users (id),CONSTRAINT freind FOREIGN KEY (id) REFERENCES users (id))');
 
   //if successfull
   query.on('end', function(result){
@@ -104,7 +104,7 @@ function create_friends_table () {
 */
 function create_login_table(){
 //creating login table structure
-query = client.query('Drop table if exists logins; CREATE TABLE logins (id serial PRIMARY KEY, username varchar(80) UNIQUE NOT NULL, password varchar(500) NOT NULL, CONSTRAINT username FORGEIGN KEY (username) REFERENCES users (username))');
+query = client.query('Drop table if exists logins; CREATE TABLE logins (id serial PRIMARY KEY, username varchar(80) UNIQUE NOT NULL, password varchar(500) NOT NULL, CONSTRAINT username FOREIGN KEY (username) REFERENCES users (username))');
 
 //if successfull
 query.on('end', function(result){
