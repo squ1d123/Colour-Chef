@@ -55,8 +55,9 @@ app.get('/',function(req,res){
       res.sendfile("index.html");
 });
 
-app.all('/api/*', function(req, res){
-  
+app.all('/api/*', [auth.authToken], function(req, res, next){
+  //goes to next handler
+  next();
 });
 
 app.post('/api/photo',function(req,res){
