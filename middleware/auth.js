@@ -31,6 +31,8 @@ exports.authToken = function(req, res, next){
   var token = (req.body && req.body.access_token) || parsed_url.query.access_token || req.headers["x-access-token"];
 
   if (token) {
+    console.log(token);
+    console.log(accessTokens);
     var verified = false;
     //check if the token passed is a valid one
     for(var i=0; i<accessTokens.length; i++){
@@ -52,7 +54,7 @@ exports.authToken = function(req, res, next){
               }
 
               //to check if valid user
-              query = client.query('SELECT username FROM users WHERE username = $1', [decoded.iss]);
+              query = client.query('SELECT id FROM logins WHERE id = $1', [decoded.iss]);
 
               //sql sucessful so just return back
               query.on('row', function(result){
@@ -63,6 +65,7 @@ exports.authToken = function(req, res, next){
               //if no result is returned then user does not exist
               query.on('end', function(result){
                 if(result.rowCount === 0){
+                  console.log('in end')
                   return res.end('Cannot authenticate token', 400);
                 }
               });
@@ -85,7 +88,7 @@ exports.addToken = function(result){
   var expires = moment().add(7, 'days').valueOf()       
   var token = jwt.encode(
     {
-      iss: result.username,
+      iss: result.id,
       exp: expires
     }, 
     tokenSecret
