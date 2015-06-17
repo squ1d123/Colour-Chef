@@ -84,7 +84,7 @@ function create_project_table () {
 function create_friends_table () {
 
   //creating freinds table structure
-  query = client.query('Drop table if exists freinds; CREATE TABLE freinds (username integer NOT NULL, freind integer NOT NULL, CONSTRAINT username FOREIGN KEY (id) REFERENCES users (id),CONSTRAINT freind FOREIGN KEY (id) REFERENCES users (id))');
+  query = client.query('Drop table if exists freinds; CREATE TABLE freinds (userId integer NOT NULL, freind integer NOT NULL, CONSTRAINT userId FOREIGN KEY (userId) REFERENCES users (id))');
 
   //if successfull
   query.on('end', function(result){
@@ -104,7 +104,7 @@ function create_friends_table () {
 */
 function create_login_table(){
 //creating login table structure
-query = client.query('Drop table if exists logins; CREATE TABLE logins (id serial PRIMARY KEY, username varchar(80) UNIQUE NOT NULL, password varchar(500) NOT NULL, CONSTRAINT username FOREIGN KEY (username) REFERENCES users (username))');
+query = client.query('Drop table if exists logins; CREATE TABLE logins (id serial PRIMARY KEY, username varchar(80) UNIQUE NOT NULL, password varchar(500) NOT NULL)');
 
 //if successfull
 query.on('end', function(result){
