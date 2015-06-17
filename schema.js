@@ -14,7 +14,7 @@ create_login_table();
 
 create_friends_table();
 
-query.on('end', function(result) { client.end(); });
+// query.on('end', function(result) { client.end(); });
 
 
 
