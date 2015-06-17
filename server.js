@@ -55,6 +55,10 @@ app.get('/',function(req,res){
       res.sendfile("index.html");
 });
 
+app.all('/api/*', function(req, res){
+  
+});
+
 app.post('/api/photo',function(req,res){
   if(done==true){
     console.log(req.files);
