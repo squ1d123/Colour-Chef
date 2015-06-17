@@ -49,7 +49,7 @@ function create_new_user (url, name, username, password, age, difficulty) {
 
     $.post(Posturl,newUser, function(data) {
 
-      if(data.error){
+      if(/*error*/){
         //error in request or in database insert
 
         //false
@@ -71,7 +71,7 @@ function add_friend (url, user, friend, friend_code) {
 
 	$.post(Posturl,friendRequest, function(data) {
 
-      if(data.error){
+      if(/*error*/){
         //error in request or in database insert
 
         //false
@@ -94,7 +94,7 @@ function add_colour (url, user, rbg) {
 
   $.post(Posturl,Colour, function(data) {
 
-      if(data.error){
+      if(/*error*/){
         //error in request or in database insert
 
         //false
@@ -115,7 +115,7 @@ function get_colours (url, user) {
 
 	$.get(GetUrl, function(data) {
 
-		if(data.error){
+		if(/*error*/){
 			//error
 		}
 
@@ -144,7 +144,7 @@ function delete_colour (url, users, colour) {
       data: DelColour,
       success:function(result){
         
-        if(result.error){
+        if(/*error*/){
         	//error        	
         }
 
