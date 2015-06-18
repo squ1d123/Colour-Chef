@@ -3,7 +3,7 @@
 /*
 	called to log the user into there account
 */
-function login (username, password) {
+function login (url, username, password) {
 
 	var Posturl = url+'/login';
 	var loginDetails = {"user" : username, "password" : password};
@@ -31,6 +31,31 @@ function login (username, password) {
     });
 }
 
+/*
+  logs the user out
+*/
+function logout (url, user) {
+
+  var Posturl = url+'/logout';
+
+  $.ajax({
+      url: Posturl,
+      type: 'Post',
+      //dont need file with user name, just remove the token???
+      success:function(result){
+        
+        //success
+        
+
+      },
+      error: function (error) {
+
+        // error
+
+      }
+
+    });
+}
 
 /*
 	set the token header
