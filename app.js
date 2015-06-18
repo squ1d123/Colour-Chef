@@ -205,12 +205,22 @@ function get_colours (url, user) {
       success:function(result){
         
         //success
-        
+        console.log('got all the users colours-> '+result);
+
+
+        return result;
 
       },
       error: function (error) {
 
       	// error
+
+        console.log("error geting users colours -> "+error);
+
+
+        var  res = {"error" : error};
+
+        return res;
 
       }
 
@@ -237,11 +247,17 @@ function delete_colour (url, users, colour) {
         
         //success
 
+        console.log("deleted the user colour");
+        return true;
+
       },
       error: function (error) {
 
       	// error
 
+        console.log("error deleteing thye user colour -> "+error);
+
+      return false;
       }
 
     });
