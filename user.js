@@ -54,7 +54,7 @@ var addDetails = function(req, res, next){
 			res.statusCode = 400;
 	    	res.send('Cannot find id');	
 		}
-		query = client.query('Insert into users(id, name, age, difficulty) values ($1, $2, $3, $4)', [result.rows.id, req.body.name, req.body.age, req.body.difficulty]);
+		query = client.query('Insert into users(id, name, age, difficulty) values ($1, $2, $3, $4)', [result.rows[0].id, req.body.name, req.body.age, req.body.difficulty]);
 	});
 
 	

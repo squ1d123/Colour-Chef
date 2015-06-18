@@ -1,8 +1,135 @@
-<form id        =  "uploadForm"
-     enctype   =  "multipart/form-data"
-     action    =  "https://murmuring-cliffs-3537.herokuapp.com/api/photo"
-     method    =  "post"
->
-<input type="file" name="userPhoto" />
-<input type="submit" value="Upload Image" name="submit">
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+</head>
+<body>
+<!-- Start of first page -->
+<div data-role="page" id="foo">
+
+    <div data-role="header">
+        <h1>Foo</h1>
+        <input type="submit" value="Login Button" id="loginButton" />
+        <input type="submit" value="Logout Button" id="logoutButton" />
+    </div><!-- /header -->
+
+    <div role="main" class="ui-content">
+
+        <label for="text-1">Get projects:</label>
+        <form id        =  "uploadForm"
+               enctype   =  "multipart/form-data"
+               action    =  "localhost:50000/api/photo"
+               method    =  "post"
+        >
+          <input type="file" name="userPhoto" />
+          <input type="submit" value="Submit Button" id="projectButton" />
+        </form>
+
+	<!-- put the result here -->
+	<div id="result"  class="functions"></div>
+
+        <label for="text-2">Add a new quote:</label>
+        <input type="submit" value="Submit Button" id="button2" />
+
+    </div>
+
+    <div id="result"  class="functions"></div>
+
+        <label for="text-2">Delete a quote:</label>
+        <input type="submit" value="Delete Button" id="button3" />
+
+    </div><!-- /content -->
+
+    <div data-role="footer">
+        <h4>Page Footer</h4>
+    </div><!-- /footer -->
+</div><!-- /page -->
+
+<script type="text/javascript">
+$(document).bind('pageinit', function() {
+
+  alert("hello");
+
+  $.ajaxSetup ({
+    cache: false
+  });
+
+  var token = window.localStorage.getItem('token');
+ 
+  if (token) {
+    $.ajaxSetup({
+      headers: {
+        'x-access-token': token
+      }
+    });
+  }
+
+  $( "#logoutButton" ).bind( "click", function(event, ui) {
+    var jsonUrl = "https://fierce-brushlands-9984.herokuapp.com/logout/";
+    alert('waiting for result from '+ jsonUrl);
+    var logoutInfo = { "token" : window.localStorage.getItem('token') };
+    alert(JSON.stringify(logoutInfo));
+    $.post(jsonUrl,logoutInfo, function(data) {
+      alert('logout sucessfull');
+      alert(data.token);
+    }, 'json');
+  });
+
+  $( "#loginButton" ).bind( "click", function(event, ui) {
+    var jsonUrl = "https://murmuring-cliffs-3537.herokuapp.com/login/";
+    alert('waiting for result from '+ jsonUrl);
+    var loginInfo = { "user" : "sam", "password" : "password1" };
+    $.post(jsonUrl,loginInfo, function(data) {
+      alert('login sucessfull');
+      alert(data.token);
+      window.localStorage.setItem('token', data.token);
+    }, 'json');
+  });
+
+  $( "#button1" ).bind( "click", function(event, ui) {
+    var q = $("#text1").val();
+    alert("Click "+q);
+    var jsonUrl = "https://fierce-brushlands-9984.herokuapp.com/quote/"+q;
+    alert("Fetching result from "+jsonUrl);
+    $.get(jsonUrl, function(data) {
+      alert(data.author);
+      $("#result").html("<p><b>"+data.author+" said "+data.text+"</b></p>")
+    }, 'json');
+  });
+
+
+  $( "#button2" ).bind( "click", function(event, ui) {
+    alert("Posting a new quote");
+    var jsonUrl = "https://fierce-brushlands-9984.herokuapp.com/quote/";
+    var newQuote = { "author" : "foo", "text" : "some text" };
+    $.post(jsonUrl,newQuote, function(data) {
+      alert("Added quote number " + data.id + " " + data.author + " " + data.text);
+    }, 'json');
+  });
+
+  $( "#button3" ).bind( "click", function(event, ui) {
+   
+    $.ajax({
+      url: "https://fierce-brushlands-9984.herokuapp.com/quote/" + $("#text1").val(),
+      type: "DELETE",
+      success: function(data){
+        alert('deletion sucessfull');
+      },
+      error: function(data){
+        alert('Deletion failed');
+      }
+
+    });
+  });
+
+
+});
+</script>
+</body>
+</html>

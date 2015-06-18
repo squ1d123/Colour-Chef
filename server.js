@@ -70,8 +70,10 @@ app.post('/newUser', [user.createUser], function(req, res){
   });
 });
 
+app.get('/api/project')
+
 app.get('/api/colours', function(req, res){
-  console.log('in get api/colours');
+  res.json('in get api/colours');
 });
 
 app.post('/api/photo',function(req,res){
