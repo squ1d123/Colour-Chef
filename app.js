@@ -17,7 +17,8 @@ function login (url, username, password) {
       success:function(result){
         
         //success
-         window.localStorage.setItem('token', data.token);
+        console.log("login success");
+        window.localStorage.setItem('token', data.token);
 
       	setToken();
 
@@ -51,13 +52,18 @@ function logout (url, user) {
       success:function(result){
         
         //success
-        
+        console.log("logged out");
+        return true;        
 
       },
       error: function (error) {
 
         // error
+        console.log("error ion log out -> "+error);
 
+        alert(error);
+
+        return false;
       }
 
     });
