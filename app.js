@@ -21,10 +21,16 @@ function login (url, username, password) {
 
       	setToken();
 
+        return true;
+
       },
       error: function (error) {
 
       	// error
+
+        alert(error);
+
+        return false;
 
       }
 
