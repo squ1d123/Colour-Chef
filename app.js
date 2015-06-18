@@ -125,10 +125,10 @@ function create_new_user (url, name, username, password, age, difficulty) {
 /*
 	add friend to user
 */
-function add_friend (url, user, friend, friend_code) {
+function add_friend (url, user, friend_user_name, friend_code) {
 	var Posturl = url+'/addFriend';
 
-	var friendRequest = {"user" : user, "friend" : friend, "code" : friend_code};
+	var friendRequest = {"user" : user, "friend" : friend_user_name, "code" : friend_code};
 
 	$.ajax({
       url: Posturl,
@@ -138,11 +138,17 @@ function add_friend (url, user, friend, friend_code) {
       success:function(result){
         
         //success
+        console.log("new friend added");
+        return true;
 
       },
       error: function (error) {
 
       	// error
+        console.log("error in adding friend -> "+error);
+        alert(error);
+
+        return false;
 
       }
 
