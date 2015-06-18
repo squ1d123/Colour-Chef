@@ -266,6 +266,46 @@ function delete_colour (url, users, colour) {
 
 //new projects
 
+/*
+  uploads a new project the user has created
+*/
+function new_project (url, user, projectName, privateP) {
+
+  //
+  //
+  //upload a file here 
+  //
+  //
+  //
+
+  var Posturl = url+"/newProject";
+  var projectDetails = {"user" : user, "project" : projectName, "private" : privateP};
+
+  $.ajax({
+      url: Posturl,
+      type: 'POST',
+      dataType: json,
+      data: projectDetails,
+      success:function(result){
+        
+        //success
+        console.log("added new project");
+
+        return true;
+
+      },
+      error: function (error) {
+
+        // error
+        console.log("failed to added new project -> "+error);
+        return false;
+
+      }
+
+    });
+
+}
+
 
 
 
