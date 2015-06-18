@@ -306,10 +306,56 @@ function new_project (url, user, projectName, privateP) {
 
 }
 
-
-
-
 //get project
+
+/*
+  donwloads images of projects the user has done in the past
+*/
+
+function getProjects (url, user) {
+
+  //
+  //
+  //
+  //DOWNLOAD PHOTOS ????????????
+  //
+  //
+  //
+  //
+  var GetUrl = url+"/getproject";
+  var userDetails = {"user" : user};
+
+  $.ajax({
+      url: GetUrl,
+      type: 'GET',
+      dataType: json,
+      data: userDetails,
+      success:function(result){
+        
+        //success
+        console.log('got all the users projects-> '+result);
+
+
+        return result;
+
+      },
+      error: function (error) {
+
+        // error
+
+        console.log("error geting users projects -> "+error);
+
+
+        var  res = {"error" : error};
+
+        return res;
+
+      }
+
+    });
+
+
+}
 
 
 
