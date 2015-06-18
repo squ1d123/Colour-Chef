@@ -23,7 +23,7 @@ function login (url, username, password) {
       	setToken();
 
         //return user details
-        return true;
+        return result;
 
       },
       error: function (error) {
@@ -32,7 +32,9 @@ function login (url, username, password) {
 
         alert(error);
 
-        return false;
+        var  res = {"error" : error};
+
+        return res;
 
       }
 
