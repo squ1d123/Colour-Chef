@@ -3,6 +3,7 @@ var express = require('express');
 var password = require('password-hash-and-salt');
 var multer  = require('multer');
 var auth = require('./middleware/auth.js');
+var user = require('./user.js');
 
 var pg = require('pg').native
   , connectionString = process.env.DATABASE_URL
@@ -58,6 +59,15 @@ app.get('/',function(req,res){
 app.all('/api/*', [auth.authToken], function(req, res, next){
   //goes to next handler
   next();
+});
+
+app.post('/newUser', [user.createUser], function(req, res){
+  console.log('in newUser');
+  query = client.query('SELECT * from logins where username = $1', [req.body.user]);
+
+  query.on('row', function(result){
+    res.send(auth.addToken(result));
+  });
 });
 
 app.get('/api/colours', function(req, res){
