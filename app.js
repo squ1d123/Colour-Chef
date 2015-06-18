@@ -22,6 +22,7 @@ function login (url, username, password) {
 
       	setToken();
 
+        //return user details
         return true;
 
       },
@@ -99,11 +100,19 @@ function create_new_user (url, name, username, password, age, difficulty) {
       success:function(result){
         
         //success
+        console.log('success, newUser created');
+
+        return result.id;
 
       },
       error: function (error) {
 
       	// error
+
+        console.log("error in create new user -> "+error);
+        alert(error);
+
+        return -1;
 
       }
 
