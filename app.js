@@ -173,11 +173,15 @@ function add_colour (url, user, rbg) {
       success:function(result){
         
         //success
+        console.log("added new colour");
+        return true;
 
       },
       error: function (error) {
 
       	// error
+        console.log("failed to added new colour -> "+error);
+        return false;
 
       }
 
@@ -201,6 +205,7 @@ function get_colours (url, user) {
       success:function(result){
         
         //success
+        
 
       },
       error: function (error) {
