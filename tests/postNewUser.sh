@@ -1,0 +1,1 @@
+curl -v -H "Accept:application/json" -H "Content-type:application/json" -X POST -d '{"name" : "sameer", "username" : "squid", "password" : "pass", "difficulty": "easy", "age" : "5"}' localhost:50000/newUser
