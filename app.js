@@ -62,7 +62,7 @@ function logout (url, user) {
       error: function (error) {
 
         // error
-        console.log("error ion log out -> "+error);
+        console.log("error ion log out -> "+ JSON.stringify(error));
 
         alert(error);
 
@@ -102,7 +102,7 @@ function create_new_user (url, name, username, password, age, difficulty) {
       success:function(result){
         
         //success
-        console.log('success, newUser created');
+        console.log('success, newUser created ->'+  JSON.stringify(result));
 
         return result.id;
 
@@ -111,7 +111,7 @@ function create_new_user (url, name, username, password, age, difficulty) {
 
       	// error
 
-        console.log("error in create new user -> "+error);
+        console.log("error in create new user -> "+ JSON.stringify(error));
         alert(error);
 
         return -1;
@@ -145,7 +145,7 @@ function add_friend (url, user, friend_user_name, friend_code) {
       error: function (error) {
 
       	// error
-        console.log("error in adding friend -> "+error);
+        console.log("error in adding friend -> "+ JSON.stringify(error));
         alert(error);
 
         return false;
@@ -180,7 +180,7 @@ function add_colour (url, user, rbg) {
       error: function (error) {
 
       	// error
-        console.log("failed to added new colour -> "+error);
+        console.log("failed to added new colour -> "+ JSON.stringify(error));
         return false;
 
       }
@@ -205,7 +205,7 @@ function get_colours (url, user) {
       success:function(result){
         
         //success
-        console.log('got all the users colours-> '+result);
+        console.log('got all the users colours-> '+ JSON.stringify(result));
 
 
         return result;
@@ -215,7 +215,7 @@ function get_colours (url, user) {
 
       	// error
 
-        console.log("error geting users colours -> "+error);
+        console.log("error geting users colours -> "+ JSON.stringify(error));
 
 
         var  res = {"error" : error};
@@ -255,7 +255,7 @@ function delete_colour (url, users, colour) {
 
       	// error
 
-        console.log("error deleteing thye user colour -> "+error);
+        console.log("error deleteing thye user colour -> "+ JSON.stringify(error));
 
       return false;
       }
@@ -297,7 +297,7 @@ function new_project (url, user, projectName, privateP) {
       error: function (error) {
 
         // error
-        console.log("failed to added new project -> "+error);
+        console.log("failed to added new project -> "+JSON.stringify(error));
         return false;
 
       }
@@ -333,7 +333,7 @@ function getProjects (url, user) {
       success:function(result){
         
         //success
-        console.log('got all the users projects-> '+result);
+        console.log('got all the users projects-> '+ JSON.stringify(result));
 
 
         return result;
@@ -343,7 +343,7 @@ function getProjects (url, user) {
 
         // error
 
-        console.log("error geting users projects -> "+error);
+        console.log("error geting users projects -> "+ JSON.stringify(error));
 
 
         var  res = {"error" : error};
