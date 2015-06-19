@@ -70,7 +70,9 @@ app.post('/newUser', [user.createUser], function(req, res){
   });
 });
 
-app.get('/api/project')
+app.get('/api/project', function(req, res){
+  res.download('./uploads/')
+});
 
 app.get('/api/colours', function(req, res){
   res.json('in get api/colours');

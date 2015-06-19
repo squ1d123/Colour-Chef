@@ -14,6 +14,26 @@ var pg = require('pg').native
 client = new pg.Client(connectionString);
 client.connect();
 
+// make express handle JSON and other requests
+var bodyParser = require('body-parser');
+
+// use cross origin resource sharing
+var cors = require('cors');
+
+var express = require('express');
+
+// instantiate app
+var app = express();
+
+// make sure we can parse JSON
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
+
+// serve up files from this directory 
+app.use(express.static(__dirname));
+// make sure we use CORS to avoid cross domain problems
+app.use(cors());
+
 var exports = module.exports = {};
 
 exports.authToken = function(req, res, next){
