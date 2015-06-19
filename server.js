@@ -128,10 +128,10 @@ app.post('/login', function(req, res){
 
 
 // use PORT set as an environment variable
-// var server = app.listen(process.env.PORT, function() {
-//     console.log('Listening on port %d', server.address().port);
-// });
-
-var server = app.listen(50000, function() {
+var server = app.listen(process.env.PORT, function() {
     console.log('Listening on port %d', server.address().port);
 });
+
+// var server = app.listen(50000, function() {
+//     console.log('Listening on port %d', server.address().port);
+// });
