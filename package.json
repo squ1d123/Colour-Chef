@@ -2,7 +2,7 @@
   "name": "coulor-chef",
   "version": "1.0.0",
   "description": "server for colour-chef",
-  "main": "index.html",
+  "main": "index2.html",
   "scripts": {
     "start": "node server.js"
   },
