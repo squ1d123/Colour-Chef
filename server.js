@@ -71,8 +71,10 @@ app.get('/api/project/:id', function(req, res){
       res.statusCode = 400;
       res.send('Error: id not found');
     }
-    //send file to be downloaded
-    res.download('./' + result.rows[0].link);
+    else{
+      //send file to be downloaded
+      res.download('./' + result.rows[0].link);
+    }
   })
 });
 
