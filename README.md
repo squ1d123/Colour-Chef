@@ -7,3 +7,8 @@ Serverside still need to implement:
 4. deleteColour
 5. newProject--almost complete
 
+
+clientside still needs to implement:
+
+1.file uploading
+2.file downloading
