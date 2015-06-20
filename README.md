@@ -1,8 +1,8 @@
 # Colour-Chef
-1. Serverside still need to implement:
-2. addfriend
-3. getColour
-4. getColours
-5. deleteColour
-6. newProject--almost complete
+Serverside still need to implement:
+1. addfriend
+2. getColour
+3. getColours
+4. deleteColour
+5. newProject--almost complete
 
