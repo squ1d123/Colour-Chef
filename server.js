@@ -71,8 +71,8 @@ app.get('/api/project/:id', function(req, res){
       res.statusCode = 400;
       res.send('Error: id not found');
     }
-    console.log(result.rows[0].link);
-    res.download('.' + result.rows[0].link);
+    //send file to be downloaded
+    res.download('./' + result.rows[0].link);
   })
 });
 
@@ -80,12 +80,18 @@ app.get('/api/colours', function(req, res){
   res.json('in get api/colours');
 });
 
-app.post('/photo',function(req,res){
-  console.log('in photo');
-  console.log(req.files);
+app.post('/api/photo',function(req,res){
   if(done==true){
-    console.log(req.files);
-    res.end("To view image on server https://murmuring-cliffs-3537.herokuapp.com/" + req.files.userPhoto.path);
+    var id = auth.getId(req, res);
+    query = client.query('insert into projects(user_id, link) values($1, $2)', [id, req.files.userPhoto.path]);
+
+    query.on('end', function(result){
+      if(result.rowCount === 0){
+        res.statusCode = 400;
+        res.send('Error: id not found');
+      }
+      res.json('file uploaded');  
+    });
   }
 });
 
