@@ -101,6 +101,24 @@ exports.addToken = function(result){
   });
 }
 
+exports.getId = function(req, res){
+   // Parse the URL, we might need this
+  var parsed_url = url.parse(req.url, true)
+
+  var token = (req.body && req.body.access_token) || parsed_url.query.access_token
+              || req.headers["x-access-token"];
+  
+  if (token){
+    try {
+          //decode token
+          var decoded = jwt.decode(token, tokenSecret);
+          return decoded.iss;
+        }catch(err){
+          console.log('caught error ' +err);
+        }
+  }
+}
+
 exports.removeToken = function(req, res, next){
   if(!req.body.hasOwnProperty('token')) {
     res.statusCode = 400;
