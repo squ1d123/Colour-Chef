@@ -24,7 +24,7 @@
         <label for="text-1">Get projects:</label>
         <form id        =  "uploadForm"
                enctype   =  "multipart/form-data"
-               action    =  "localhost:50000/api/photo"
+               action	 =	"https://murmuring-cliffs-3537.herokuapp.com/api/photo"
                method    =  "post"
         >
           <input type="file" name="userPhoto" />
@@ -54,21 +54,22 @@
 <script type="text/javascript">
 $(document).bind('pageinit', function() {
 
-  alert("hello");
 
   $.ajaxSetup ({
     cache: false
   });
 
-  var token = window.localStorage.getItem('token');
+  	var token = window.localStorage.getItem('token');
  
-  if (token) {
-    $.ajaxSetup({
-      headers: {
-        'x-access-token': token
-      }
-    });
-  }
+	if (token) {
+	    $.ajaxSetup({
+	      headers: {
+	        'x-access-token': token
+	      }
+	    });
+	  }
+
+  
 
   $( "#logoutButton" ).bind( "click", function(event, ui) {
     var jsonUrl = "https://fierce-brushlands-9984.herokuapp.com/logout/";
@@ -92,16 +93,25 @@ $(document).bind('pageinit', function() {
     }, 'json');
   });
 
-  $( "#button1" ).bind( "click", function(event, ui) {
-    var q = $("#text1").val();
-    alert("Click "+q);
-    var jsonUrl = "https://fierce-brushlands-9984.herokuapp.com/quote/"+q;
-    alert("Fetching result from "+jsonUrl);
-    $.get(jsonUrl, function(data) {
-      alert(data.author);
-      $("#result").html("<p><b>"+data.author+" said "+data.text+"</b></p>")
-    }, 'json');
-  });
+  // $( "#projectButton" ).bind( "click", function(event, ui) {
+  //   alert("Click ");
+  //   var jsonUrl = "https://fierce-brushlands-9984.herokuapp.com/api/photo";
+  //   alert("Fetching result from "+jsonUrl);
+
+  //       $.ajax({
+  //           type: "POST",
+  //           url: "addFile.do",
+  //           enctype: 'multipart/form-data',
+  //           data: new FormData($('uploadForm')[0]),
+  //           //Options to tell jQuery not to process data or worry about content-type.
+	 //        cache: false,
+	 //        contentType: false,
+	 //        processData: false,
+  //           success: function () {
+  //               alert("Data Uploaded: ");
+  //           }
+  //       });
+  // });
 
 
   $( "#button2" ).bind( "click", function(event, ui) {
