@@ -21,7 +21,7 @@
 
     <div role="main" class="ui-content">
 
-        <label for="text-1">Get projects:</label>
+        <label for="text-1">upload projects:</label>
        <form id        =  "uploadForm"
 		     enctype   =  "multipart/form-data"
 		     action    =  "/photo"
@@ -34,7 +34,8 @@
 	<!-- put the result here -->
 	<div id="result"  class="functions"></div>
 
-        <label for="text-2">Add a new quote:</label>
+        <label for="text-2">get a project:</label>
+        <input name="text-1" id="text1" value="1" type="text">
         <input type="submit" value="Submit Button" id="button2" />
 
     </div>
@@ -59,6 +60,7 @@ $(document).bind('pageinit', function() {
     cache: false
   });
 
+  var setToken = function (){
   	var token = window.localStorage.getItem('token');
  
 	if (token) {
@@ -67,18 +69,17 @@ $(document).bind('pageinit', function() {
 	        'x-access-token': token
 	      }
 	    });
-	  }
-
+	}
+}
   
 
   $( "#logoutButton" ).bind( "click", function(event, ui) {
-    var jsonUrl = "https://fierce-brushlands-9984.herokuapp.com/logout/";
+    var jsonUrl = "/logout/";
     alert('waiting for result from '+ jsonUrl);
     var logoutInfo = { "token" : window.localStorage.getItem('token') };
     alert(JSON.stringify(logoutInfo));
     $.post(jsonUrl,logoutInfo, function(data) {
-      alert('logout sucessfull');
-      alert(data.token);
+      alert(data);
     }, 'json');
   });
 
@@ -91,6 +92,7 @@ $(document).bind('pageinit', function() {
       alert('login sucessfull');
       alert(data.token);
       window.localStorage.setItem('token', data.token);
+      setToken();
     }, 'json');
   });
 
@@ -116,12 +118,12 @@ $(document).bind('pageinit', function() {
 
 
   $( "#button2" ).bind( "click", function(event, ui) {
-    alert("Posting a new quote");
-    var jsonUrl = "https://fierce-brushlands-9984.herokuapp.com/quote/";
-    var newQuote = { "author" : "foo", "text" : "some text" };
-    $.post(jsonUrl,newQuote, function(data) {
-      alert("Added quote number " + data.id + " " + data.author + " " + data.text);
-    }, 'json');
+    var q = $("#text1").val();
+    alert("Click "+q);
+    var jsonUrl = "/api/project/"+q;
+    //send a get request on a different window because ajaz doent allow downloading
+    //files, by doing this we pass the access token in the url instead
+    window.location = jsonUrl + '?access_token='+window.localStorage.getItem('token');
   });
 
   $( "#button3" ).bind( "click", function(event, ui) {
