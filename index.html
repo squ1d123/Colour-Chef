@@ -22,14 +22,14 @@
     <div role="main" class="ui-content">
 
         <label for="text-1">Get projects:</label>
-        <form id        =  "uploadForm"
-               enctype   =  "multipart/form-data"
-               action	 =	"https://murmuring-cliffs-3537.herokuapp.com/api/photo"
-               method    =  "post"
-        >
-          <input type="file" name="userPhoto" />
-          <input type="submit" value="Submit Button" id="projectButton" />
-        </form>
+       <form id        =  "uploadForm"
+		     enctype   =  "multipart/form-data"
+		     action    =  "/photo"
+		     method    =  "post"
+		>
+		<input type="file" name="userPhoto" />
+		<input type="submit" value="Upload Image" name="submit">
+		</form>
 
 	<!-- put the result here -->
 	<div id="result"  class="functions"></div>
@@ -83,7 +83,8 @@ $(document).bind('pageinit', function() {
   });
 
   $( "#loginButton" ).bind( "click", function(event, ui) {
-    var jsonUrl = "https://murmuring-cliffs-3537.herokuapp.com/login/";
+  	var jsonUrl = "/login/";
+    // var jsonUrl = "https://murmuring-cliffs-3537.herokuapp.com/login/";
     alert('waiting for result from '+ jsonUrl);
     var loginInfo = { "user" : "sam", "password" : "password1" };
     $.post(jsonUrl,loginInfo, function(data) {
