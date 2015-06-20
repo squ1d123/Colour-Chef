@@ -112,7 +112,7 @@ function create_project_table () {
 	
 
   //creating projects table structure
-  query = client.query('CREATE TABLE IF NOT EXISTS projects (project_id serial PRIMARY KEY, user_id integer, project_name VARCHAR, private boolean DEFAULT true)');
+  query = client.query('CREATE TABLE IF NOT EXISTS projects (project_id serial PRIMARY KEY, user_id integer, project_name VARCHAR, private boolean DEFAULT true, link varchar(400))');
 
   
   //error checking
