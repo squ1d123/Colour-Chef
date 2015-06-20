@@ -63,7 +63,7 @@ app.all('/api/*', [auth.authToken], function(req, res, next){
 
 app.post('/newUser', [user.createUser], function(req, res){
   console.log('in newUser');
-  query = client.query('SELECT * from logins where username = $1', [req.body.user]);
+  query = client.query('SELECT * from logins where username = $1', [req.body.username]);
 
   query.on('row', function(result){
     res.send(auth.addToken(result));
@@ -78,7 +78,8 @@ app.get('/api/colours', function(req, res){
   res.json('in get api/colours');
 });
 
-app.post('/api/photo',function(req,res){
+app.post('/photo',function(req,res){
+  console.log('in photo');
   if(done==true){
     console.log(req.files);
     res.end("To view image on server https://murmuring-cliffs-3537.herokuapp.com/" + req.files.userPhoto.path);
@@ -128,7 +129,7 @@ app.post('/login', function(req, res){
 
 
 // use PORT set as an environment variable
-var server = app.listen(process.env.PORT, function() {
+var server = app.listen(process.env.PORT || 50000, function() {
     console.log('Listening on port %d', server.address().port);
 });
 
