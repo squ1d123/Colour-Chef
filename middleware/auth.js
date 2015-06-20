@@ -1,6 +1,7 @@
 var url = require('url')
   , jwt = require('jwt-simple')
-  , moment = require('moment');
+  , moment = require('moment')
+  , password = require('password-hash-and-salt');
 
 var accessTokens = [];  //to sore all valid tokens
 
@@ -31,8 +32,6 @@ exports.authToken = function(req, res, next){
   var token = (req.body && req.body.access_token) || parsed_url.query.access_token || req.headers["x-access-token"];
 
   if (token) {
-    console.log(token);
-    console.log(accessTokens);
     var verified = false;
     //check if the token passed is a valid one
     for(var i=0; i<accessTokens.length; i++){
@@ -99,6 +98,60 @@ exports.addToken = function(result){
   return ({
     token : token,
     expires : expires
+  });
+}
+
+exports.removeToken = function(req, res, next){
+  if(!req.body.hasOwnProperty('token')) {
+    res.statusCode = 400;
+    return res.send('Error 400: Post syntax incorrect.');
+  }
+
+  //check if token is a valid one and remove it
+  for(var i=0; i< accessTokens.length; i++){
+    if(req.body.token === accessTokens[i]){
+      console.log('match found');
+      accessTokens.splice(i, 1);
+      return next();
+    }
+  }
+  //return if access token is not a valid token
+  res.statusCode = 401;
+  res.send('ERROR 404: invalid access token');
+}
+
+exports.login = function(req, res, next){
+  if(!req.body.hasOwnProperty('user') || !req.body.hasOwnProperty('password')){
+    res.statusCode = 400;
+    return res.send('Error 400: Post syntax incorrect.')
+  }
+
+  //executing sql query to retieve encrypted password
+  query = client.query('SELECT * from logins where username = $1', [req.body.user]);
+
+  query.on('row', function(result){
+    // Verifying a hash 
+    password(req.body.password).verifyAgainst(result.password, function(error, verified) {
+        if(error)
+            throw new Error('Something went wrong! ->' + error);
+        if(!verified) {
+          //wrong password
+          res.statusCode = 401;
+          res.send('Error 401: wrong user or password');
+        } else {
+            //send bac confirmation
+            res.send(exports.addToken(result));
+        }
+    });
+  });
+
+    //error checking for invalid username
+  query.on('end', function(result){
+    if(result.rowCount === 0){
+      res.statusCode = 401;
+      console.log('inside end 0 rowCount');
+      res.send('Error 401: wrong username or password');
+    }
   });
 }
 

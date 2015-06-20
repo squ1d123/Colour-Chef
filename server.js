@@ -3,7 +3,7 @@ var express = require('express');
 var password = require('password-hash-and-salt');
 var multer  = require('multer');
 var auth = require('./middleware/auth.js');
-var user = require('./user.js');
+var user = require('./middleware/user.js');
 
 var pg = require('pg').native
   , connectionString = process.env.DATABASE_URL
@@ -56,22 +56,24 @@ app.get('/',function(req,res){
       res.sendfile("index.html");
 });
 
-app.all('/api/*', [auth.authToken], function(req, res, next){
-  //goes to next handler
-  next();
-});
+/* Runs all refrences with /api though the authenticator */
+app.all('/api/*', auth.authToken);
 
-app.post('/newUser', [user.createUser], function(req, res){
-  console.log('in newUser');
-  query = client.query('SELECT * from logins where username = $1', [req.body.username]);
+/* Adds a new user to the system and returns a valid access token*/
+app.post('/newUser', user.createUser);
 
-  query.on('row', function(result){
-    res.send(auth.addToken(result));
-  });
-});
+app.get('/api/project/:id', function(req, res){
 
-app.get('/api/project', function(req, res){
-  res.download('./uploads/')
+  query = client.query('SELECT link from projects where project_id = $1', [req.params.id]);
+
+  query.on('end', function(result){
+    if(result.rowCount === 0){
+      res.statusCode = 400;
+      res.send('Error: id not found');
+    }
+    console.log(result.rows[0].link);
+    res.download('.' + result.rows[0].link);
+  })
 });
 
 app.get('/api/colours', function(req, res){
@@ -80,51 +82,20 @@ app.get('/api/colours', function(req, res){
 
 app.post('/photo',function(req,res){
   console.log('in photo');
+  console.log(req.files);
   if(done==true){
     console.log(req.files);
     res.end("To view image on server https://murmuring-cliffs-3537.herokuapp.com/" + req.files.userPhoto.path);
   }
 });
 
-app.post('/login', function(req, res){
-  console.log(req.body);
-  if(!req.body.hasOwnProperty('user') || !req.body.hasOwnProperty('password')){
-    res.statusCode = 400;
-    return res.send('Error 400: Post syntax incorrect.')
-  }
+/* Route for logging in, which must be done before anything
+    or a new user must be made */
+app.post('/login', auth.login);
 
-  //executing sql query to retieve encrypted password
-  query = client.query('SELECT * from logins where username = $1', [req.body.user]);
-  console.log(req.body.user);
-
-  query.on('row', function(result){
-    // Verifying a hash 
-    password(req.body.password).verifyAgainst(result.password, function(error, verified) {
-      console.log('in row');
-        if(error)
-            throw new Error('Something went wrong! ->' + error);
-        if(!verified) {
-          //wrong password
-          res.statusCode = 401;
-          res.send('Error 401: wrong user or password');
-        } else {
-            //send bac confirmation
-            // res.send('all verified');
-            console.log('adding token');
-            res.send(auth.addToken(result));
-        }
-    });
-  });
-
-    //error checking for invalid username
-  query.on('end', function(result){
-    console.log(result);
-    if(result.rowCount === 0){
-      res.statusCode = 401;
-      console.log('inside end 0 rowCount');
-      res.send('Error 401: wrong username or password');
-    }
-  });
+/* Logs out the current user bu removing their access token */
+app.post('/logout',[auth.removeToken], function(req, res){
+  res.json('successfully logged out');
 });
 
 

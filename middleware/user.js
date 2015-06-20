@@ -4,7 +4,7 @@ var pg = require('pg').native
   , port = process.env.PORT 
   , client
   , query
-  , tokenSecret = 'mySecret'
+  , auth = require('./auth.js')
   , accessTokens = [];  //to sore all valid tokens
 
 client = new pg.Client(connectionString);
@@ -57,14 +57,17 @@ var addDetails = function(req, res, next){
 		query = client.query('Insert into users(id, name, age, difficulty) values ($1, $2, $3, $4)', [result.rows[0].id, req.body.name, req.body.age, req.body.difficulty]);
 	});
 
-	
-
 	query.on('end', function(result){
 		if(result.rowCount === 0){
 			res.statusCode = 400;
 	    	res.send('Cannot find id');	
 		}
-		next();
 	});
+
+	query = client.query('SELECT * from logins where username = $1', [req.body.username]);
+
+  query.on('row', function(result){
+    res.send(auth.addToken(result));
+  });
 	
 }
