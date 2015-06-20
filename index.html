@@ -24,11 +24,9 @@
         <label for="text-1">upload projects:</label>
        <form id        =  "uploadForm"
 		     enctype   =  "multipart/form-data"
-		     action    =  "/photo"
-		     method    =  "post"
 		>
-		<input type="file" name="userPhoto" />
-		<input type="submit" value="Upload Image" name="submit">
+		<input type="file" id="file-select"name="userPhoto" />
+		<input type="submit" value="Upload Image" id="projectButton">
 		</form>
 
 	<!-- put the result here -->
@@ -96,25 +94,30 @@ $(document).bind('pageinit', function() {
     }, 'json');
   });
 
-  // $( "#projectButton" ).bind( "click", function(event, ui) {
-  //   alert("Click ");
-  //   var jsonUrl = "https://fierce-brushlands-9984.herokuapp.com/api/photo";
-  //   alert("Fetching result from "+jsonUrl);
+  $( "#projectButton" ).bind( "click", function(event, ui) {
+    alert("Click ");
+    var jsonUrl = "/api/photo/";
+    alert("Fetching result from "+jsonUrl);
+    var fileSelect = document.getElementById('file-select');
+    var files = fileSelect.files;
+    var file = files[0];
+    var formData = new FormData();
+    formData.append('userPhoto', file, file.name);
 
-  //       $.ajax({
-  //           type: "POST",
-  //           url: "addFile.do",
-  //           enctype: 'multipart/form-data',
-  //           data: new FormData($('uploadForm')[0]),
-  //           //Options to tell jQuery not to process data or worry about content-type.
-	 //        cache: false,
-	 //        contentType: false,
-	 //        processData: false,
-  //           success: function () {
-  //               alert("Data Uploaded: ");
-  //           }
-  //       });
-  // });
+    $.ajax({
+        type: "POST",
+        url: jsonUrl,
+        enctype: 'multipart/form-data',
+        data: formData,
+        //Options to tell jQuery not to process data or worry about content-type.
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            alert(data);
+        }
+    });
+  });
 
 
   $( "#button2" ).bind( "click", function(event, ui) {
