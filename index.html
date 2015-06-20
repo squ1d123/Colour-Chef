@@ -58,6 +58,7 @@ $(document).bind('pageinit', function() {
     cache: false
   });
 
+
   var setToken = function (){
   	var token = window.localStorage.getItem('token');
  
@@ -69,6 +70,8 @@ $(document).bind('pageinit', function() {
 	    });
 	}
 }
+
+setToken();
   
 
   $( "#logoutButton" ).bind( "click", function(event, ui) {
