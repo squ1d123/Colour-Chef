@@ -41,7 +41,11 @@
     <div id="result"  class="functions"></div>
 
         <label for="text-2">Get Colours</label>
-        <input type="submit" value="Get Colours Button" id="getColoursButton" />
+        <input type="submit" value="Get Colours" id="getColoursButton" />
+
+        <label for="text-2">Add Colour</label>
+        <input name="text-1" id="colourText" value="0, 0, 0" type="text">
+        <input type="submit" value="Add Colour" id="addColourButton" />
 
     </div><!-- /content -->
 
@@ -137,6 +141,26 @@ setToken();
     $.ajax({
       url: "/api/colours/",
       type: "GET",
+      success: function(data){
+        alert('sucessfull');
+        console.log(data);
+      },
+      error: function(data){
+        alert('failed');
+      }
+
+    });
+  });
+
+  $( "#addColourButton" ).bind( "click", function(event, ui) {
+  	var rgb = $("#colourText").val();
+   	var Colour = {"rgb":rgb};
+
+    $.ajax({
+      url: "/api/colour/",
+      type: "POST",
+      dataType: 'json',
+      data: Colour,
       success: function(data){
         alert('sucessfull');
         console.log(data);
