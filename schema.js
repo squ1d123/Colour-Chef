@@ -112,7 +112,7 @@ function create_project_table () {
 	
 
   //creating projects table structure
-  query = client.query('CREATE TABLE IF NOT EXISTS projects (project_id serial PRIMARY KEY, user_id integer, project_name VARCHAR, private boolean DEFAULT true, link varchar(400))');
+  query = client.query('CREATE TABLE IF NOT EXISTS projects (project_id serial PRIMARY KEY, user_id integer not null, project_name VARCHAR, private boolean DEFAULT true, link varchar(400))');
 
   
   //error checking
@@ -188,7 +188,7 @@ password('password1').hash(function(error, hash) {
 function create_friends_table () {
 
   //creating freinds table structure
-  query = client.query('CREATE TABLE IF NOT EXISTS freinds (userId integer NOT NULL, freind integer NOT NULL)');
+  query = client.query('CREATE TABLE IF NOT EXISTS friends (userId integer NOT NULL, friend integer NOT NULL)');
 
   
 
