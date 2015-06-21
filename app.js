@@ -161,7 +161,7 @@ function add_friend (url, user, friend_user_name, friend_code) {
 	adds colour to the users selection
 */
 function add_colour (url, user, rbg) {
-  var Posturl = url+'/addColour';
+  var Posturl = url+'/colour';
 
   var Colour = {"rgb":rgb};
 
@@ -194,7 +194,7 @@ function add_colour (url, user, rbg) {
 	gets the colours the user has made
 */
 function get_colours (url, user) {
-	var GetUrl = url+'/getColours';
+	var GetUrl = url+'/colours';
 	var UserJson = {"user" : user};
 
 	$.ajax({
