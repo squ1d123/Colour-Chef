@@ -111,6 +111,8 @@ app.post('/logout',[auth.removeToken], function(req, res){
   res.json('successfully logged out');
 });
 
+app.delete('/api/colour', user.removeColour);
+
 
 // use PORT set as an environment variable
 var server = app.listen(process.env.PORT || 50000, function() {

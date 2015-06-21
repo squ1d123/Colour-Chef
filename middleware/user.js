@@ -89,6 +89,29 @@ exports.getColours = function (req, res){
 	});
 }
 
+exports.removeColour = function (req, res){
+	if(!req.body.hasOwnProperty('colour')){
+		res.statusCode = 400;
+    	return res.send('Error 400: Post syntax incorrect.');
+	}
+
+	var id = auth.getId(req, res);
+
+	query = client.query('delete from avcolours where user_id = $1 and rgb = $2', [id, req.body.colour]);
+
+	query.on('end', function(result){
+		if(result.rowCount === 0){
+			res.statusCode = 400;
+			return res.send('Error 400: could not delete colour');
+		}
+		else{
+			return res.json('Successfully Deleted');
+		}
+	})
+
+
+}
+
 exports.addColour = function (req, res){
 	if(!req.body.hasOwnProperty('rgb')){
 		res.statusCode = 400;
@@ -102,7 +125,7 @@ exports.addColour = function (req, res){
 	query.on('end', function(result){
 		if (result.rowCount === 0){
 			res.statusCode = 400;
-			return res.send('Error 400: could not add coulour');
+			return res.send('Error 400: could not add colour');
 		}
 		else{
 			return res.json('Successfully Added');

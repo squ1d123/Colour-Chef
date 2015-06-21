@@ -47,6 +47,9 @@
         <input name="text-1" id="colourText" value="0, 0, 0" type="text">
         <input type="submit" value="Add Colour" id="addColourButton" />
 
+        <label for="text-2">Delete Colour</label>
+        <input type="submit" value="Delete Colour" id="delColourButton" />
+
     </div><!-- /content -->
 
     <div data-role="footer">
@@ -167,6 +170,27 @@ setToken();
       },
       error: function(data){
         alert('failed');
+      }
+
+    });
+  });
+
+  $( "#delColourButton" ).bind( "click", function(event, ui) {
+  	var rgb = $("#colourText").val();
+   	var Colour = {"colour":rgb};
+
+    $.ajax({
+      url: "/api/colour/",
+      type: "DELETE",
+      dataType: 'json',
+      data: Colour,
+      success: function(data){
+        alert('sucessfull');
+        console.log(data);
+      },
+      error: function(data){
+        alert('failed');
+        console.log(data);
       }
 
     });
