@@ -10,5 +10,5 @@ Serverside still need to implement:
 
 clientside still needs to implement:
 
-1.file uploading
-2.file downloading
+1. file uploading
+2. file downloading
