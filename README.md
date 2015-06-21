@@ -2,8 +2,7 @@
 Serverside still need to implement:
 
 1. addfriend
-2. deleteColour
-3. newProject--almost complete
+2. newProject--almost complete
 
 clientside still needs to implement:
 
