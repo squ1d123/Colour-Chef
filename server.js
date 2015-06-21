@@ -78,9 +78,9 @@ app.get('/api/project/:id', function(req, res){
   })
 });
 
-app.get('/api/colours', function(req, res){
-  res.json('in get api/colours');
-});
+app.get('/api/colours', user.getColours);
+
+app.post('/api/colour', user.addColour);
 
 app.post('/api/photo',function(req,res){
   if(done==true){
@@ -100,6 +100,11 @@ app.post('/api/photo',function(req,res){
 /* Route for logging in, which must be done before anything
     or a new user must be made */
 app.post('/login', auth.login);
+
+
+app.post('/addFriens', function(req, res){
+
+});
 
 /* Logs out the current user bu removing their access token */
 app.post('/logout',[auth.removeToken], function(req, res){

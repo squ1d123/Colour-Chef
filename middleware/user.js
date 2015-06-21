@@ -71,3 +71,43 @@ var addDetails = function(req, res, next){
   });
 	
 }
+
+exports.getColours = function (req, res){
+	var id = auth.getId(req, res);
+
+	query = client.query('select rgb from avcolours where user_id = $1', [id]);
+
+	query.on('end', function(result){
+		if(result.rowCount === 0){
+			res.statusCode = 400;
+			return res.send('Error 400: no rows returned for that id');
+		}
+		else{
+			return res.send(result.rows);
+		}
+
+	});
+}
+
+exports.addColour = function (req, res){
+	if(!req.body.hasOwnProperty('rgb')){
+		res.statusCode = 400;
+    	return res.send('Error 400: Post syntax incorrect.');
+	}
+
+	var id = auth.getId(req, res);
+
+	query = client.query('Insert into avcolours values ($1, $2)', [id, req.body.rgb]);
+
+	query.on('end', function(result){
+		if (result.rowCount === 0){
+			res.statusCode = 400;
+			return res.send('Error 400: could not add coulour');
+		}
+		else{
+			return res.json('Successfully Added');
+		}
+	});
+
+
+}

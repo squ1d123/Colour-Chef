@@ -40,8 +40,8 @@
 
     <div id="result"  class="functions"></div>
 
-        <label for="text-2">Delete a quote:</label>
-        <input type="submit" value="Delete Button" id="button3" />
+        <label for="text-2">Get Colours</label>
+        <input type="submit" value="Get Colours Button" id="getColoursButton" />
 
     </div><!-- /content -->
 
@@ -132,16 +132,17 @@ setToken();
     window.location = jsonUrl + '?access_token='+window.localStorage.getItem('token');
   });
 
-  $( "#button3" ).bind( "click", function(event, ui) {
+  $( "#getColoursButton" ).bind( "click", function(event, ui) {
    
     $.ajax({
-      url: "https://fierce-brushlands-9984.herokuapp.com/quote/" + $("#text1").val(),
-      type: "DELETE",
+      url: "/api/colours/",
+      type: "GET",
       success: function(data){
-        alert('deletion sucessfull');
+        alert('sucessfull');
+        console.log(data);
       },
       error: function(data){
-        alert('Deletion failed');
+        alert('failed');
       }
 
     });
