@@ -271,7 +271,7 @@ function delete_colour (url) {
 /*
   uploads a new project the user has created
 */
-function new_project (url, user, projectName, privateP) {
+function new_project (url,data, projectName, privateP) {
 
   //
   //
@@ -280,8 +280,8 @@ function new_project (url, user, projectName, privateP) {
   //
   //
 
-  var Posturl = url+"/newProject";
-  var projectDetails = {"project" : projectName, "private" : privateP};
+  var Posturl = url+"/api/project";
+  var projectDetails = {"data":data,"project" : projectName, "privateP" : privateP};
 
   $.ajax({
       url: Posturl,
