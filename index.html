@@ -111,6 +111,7 @@ setToken();
     var fileSelect = document.getElementById('file-select');
     var files = fileSelect.files;
     var file = files[0];
+    console.log(file);
     var formData = new FormData();
     formData.append('userPhoto', file, file.name);
 
