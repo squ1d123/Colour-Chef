@@ -281,7 +281,7 @@ function new_project (url, user, projectName, privateP) {
   //
 
   var Posturl = url+"/newProject";
-  var projectDetails = {"user" : user, "project" : projectName, "private" : privateP};
+  var projectDetails = {"project" : projectName, "private" : privateP};
 
   $.ajax({
       url: Posturl,

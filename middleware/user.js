@@ -132,7 +132,8 @@ exports.addColour = function (req, res){
 }
 
 exports.uploadFile = function(req, res){
-	if(!req.body.hasOwnProperty('data')){
+	if(!req.body.hasOwnProperty('data') || !req.body.hasOwnProperty('project')
+		|| !req.body.hasOwnProperty('privateP')){
 		res.statusCode = 400;
     	return res.send('Error 400: Post syntax incorrect.');
 	}
@@ -147,7 +148,7 @@ exports.uploadFile = function(req, res){
 
     console.log("The file was saved!");
 
-    query = client.query('insert into projects(user_id, link) values($1, $2)', [id, filename]);
+    query = client.query('insert into projects(user_id, project_name, private, link) values($1, $2, $3, $4)', [id,req.body.project, req.body.privateP, filename]);
 
     query.on('end', function(result){
       if(result.rowCount === 0){
