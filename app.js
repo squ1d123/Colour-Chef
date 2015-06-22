@@ -75,7 +75,7 @@ function logout (url) {
 	set the token header
 */
 function setToken () {
-
+  var token = window.localStorage.getItem("token");
 	$.ajaxSetup({
       headers: {
         'x-access-token': token
@@ -103,7 +103,12 @@ function create_new_user (url, name, username, password, age, difficulty) {
         //success
         console.log('success, newUser created ->'+  JSON.stringify(result));
 
-        return result.id;
+        console.log("login success");
+        window.localStorage.setItem('token', result.token);
+
+        setToken();
+
+        return true;
 
       },
       error: function (error) {
@@ -113,7 +118,7 @@ function create_new_user (url, name, username, password, age, difficulty) {
         console.log("error in create new user -> "+ JSON.stringify(error));
         alert(error);
 
-        return -1;
+        return false;
 
       }
 
@@ -159,28 +164,28 @@ function add_friend (url, friend_user_name, friend_code) {
 /*
 	adds colour to the users selection
 */
-function add_colour (url, rbg) {
-  var Posturl = url+'/colour';
+function add_colour (url, rgb) {
+  var Posturl = url+'/api/colour';
 
   var Colour = {"rgb":rgb};
 
   $.ajax({
       url: Posturl,
       type: 'POST',
-      dataType: json,
+      dataType: 'json',
       data: Colour,
       success:function(result){
         
         //success
         console.log("added new colour");
-        return true;
+        return 1;
 
       },
       error: function (error) {
 
       	// error
         console.log("failed to added new colour -> "+ JSON.stringify(error));
-        return false;
+        return -1;
 
       }
 
@@ -208,7 +213,7 @@ function get_colours (url) {
        for(var i=0;i<result.length;i++){
         colour.push(result[i].rgb);
        }
-       
+
         return colour;
 
       },
@@ -281,7 +286,7 @@ function new_project (url, user, projectName, privateP) {
   $.ajax({
       url: Posturl,
       type: 'POST',
-      dataType: json,
+      dataType: 'json',
       data: projectDetails,
       success:function(result){
         
@@ -325,7 +330,7 @@ function getProjects (url, user) {
   $.ajax({
       url: GetUrl,
       type: 'GET',
-      dataType: json,
+      dataType: 'json',
       data: userDetails,
       success:function(result){
         

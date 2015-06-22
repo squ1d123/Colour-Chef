@@ -1,6 +1,7 @@
 var pg = require('pg').native
   , connectionString = process.env.DATABASE_URL
   , password = require('password-hash-and-salt')
+  , fs = require('fs')
   , port = process.env.PORT 
   , client
   , query
@@ -127,5 +128,34 @@ exports.addColour = function (req, res){
 		}
 	});
 
+
+}
+
+exports.uploadFile = function(req, res){
+	if(!req.body.hasOwnProperty('data')){
+		res.statusCode = 400;
+    	return res.send('Error 400: Post syntax incorrect.');
+	}
+	var fs = require('fs');
+	id = auth.getId(req, res);
+	var filename = "./uploads/" + id + Date.now();
+	
+	fs.writeFile( filename,req.body.data , function(err) {
+	    if(err) {
+	        return console.log(err);
+	    }
+
+    console.log("The file was saved!");
+
+    query = client.query('insert into projects(user_id, link) values($1, $2)', [id, filename]);
+
+    query.on('end', function(result){
+      if(result.rowCount === 0){
+        res.statusCode = 400;
+        res.send('Error: id not found');
+      }
+      res.json('file uploaded');  
+    });
+}); 
 
 }

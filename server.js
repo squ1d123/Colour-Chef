@@ -27,8 +27,8 @@ var app = express();
 var done=false;
 
 // make sure we can parse JSON
-app.use(bodyParser.urlencoded());
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({limit: '5mb'}));
+app.use(bodyParser.json({limit: '5mb'}));
 
 // serve up files from this directory 
 app.use(express.static(__dirname));
@@ -82,6 +82,8 @@ app.get('/api/colours', user.getColours);
 
 app.post('/api/colour', user.addColour);
 
+app.post('/api/project', user.uploadFile);
+
 app.post('/api/photo',function(req,res){
   if(done==true){
     var id = auth.getId(req, res);
@@ -102,7 +104,7 @@ app.post('/api/photo',function(req,res){
 app.post('/login', auth.login);
 
 
-app.post('/addFriens', function(req, res){
+app.post('/addFriends', function(req, res){
 
 });
 
