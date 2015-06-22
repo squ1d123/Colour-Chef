@@ -12,18 +12,18 @@ function login (url, username, password) {
 	$.ajax({
       url: Posturl,
       type: 'Post',
-      dataType: json,
+      dataType: 'json',
       data: loginDetails,
       success:function(result){
         
         //success
         console.log("login success");
-        window.localStorage.setItem('token', data.token);
+        window.localStorage.setItem('token', result.token);
 
       	setToken();
 
         //return user details
-        return result;
+        return true;
 
       },
       error: function (error) {
@@ -32,9 +32,8 @@ function login (url, username, password) {
 
         alert(error);
 
-        var  res = {"error" : error};
 
-        return res;
+        return false;
 
       }
 
@@ -44,7 +43,7 @@ function login (url, username, password) {
 /*
   logs the user out
 */
-function logout (url, user) {
+function logout (url) {
 
   var Posturl = url+'/logout';
 
@@ -97,7 +96,7 @@ function create_new_user (url, name, username, password, age, difficulty) {
     $.ajax({
       url: Posturl,
       type: 'Post',
-      dataType: json,
+      dataType: 'json',
       data: newUser,
       success:function(result){
         
@@ -125,15 +124,15 @@ function create_new_user (url, name, username, password, age, difficulty) {
 /*
 	add friend to user
 */
-function add_friend (url, user, friend_user_name, friend_code) {
+function add_friend (url, friend_user_name, friend_code) {
 	var Posturl = url+'/addFriend';
 
-	var friendRequest = {"user" : user, "friend" : friend_user_name, "code" : friend_code};
+	var friendRequest = {"friend" : friend_user_name, "code" : friend_code};
 
 	$.ajax({
       url: Posturl,
       type: 'Post',
-      dataType: json,
+      dataType: 'json',
       data: friendRequest,
       success:function(result){
         
@@ -160,7 +159,7 @@ function add_friend (url, user, friend_user_name, friend_code) {
 /*
 	adds colour to the users selection
 */
-function add_colour (url, user, rbg) {
+function add_colour (url, rbg) {
   var Posturl = url+'/colour';
 
   var Colour = {"rgb":rgb};
@@ -193,22 +192,24 @@ function add_colour (url, user, rbg) {
 /*
 	gets the colours the user has made
 */
-function get_colours (url, user) {
+function get_colours (url) {
 	var GetUrl = url+'/colours';
-	var UserJson = {"user" : user};
 
 	$.ajax({
       url: GetUrl,
       type: 'GET',
-      dataType: json,
-      data: UserJson,
       success:function(result){
         
         //success
         console.log('got all the users colours-> '+ JSON.stringify(result));
 
+       var colour=[];
 
-        return result;
+       for(var i=0;i<result.length;i++){
+        colour.push(result[i].rgb);
+       }
+       
+        return colour;
 
       },
       error: function (error) {
@@ -231,18 +232,14 @@ function get_colours (url, user) {
 /*
 	method to delete a colour the user has avalible
 */
-function delete_colour (url, users, colour) {
+function delete_colour (url) {
 	//use all in json if delete all or the rbg of the individual colour
 	
-	var DelUrl = url+'/deleteColour'
-
-	var DelColour = {"colour" : colour};
+	var DelUrl = url+'/api/colours'
 
 	$.ajax({
       url: DelUrl,
       type: 'DELETE',
-      dataType: json,
-      data: DelColour,
       success:function(result){
         
         //success
