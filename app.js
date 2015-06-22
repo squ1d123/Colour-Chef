@@ -344,46 +344,31 @@ function getprojectDetails (url,callback) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 //get project
 
 /*
   donwloads images of projects the user has done in the past
 */
 
-function getProjects (url) {
+function getProjects (url, projectId, callback) {
 
-  //
-  //
-  //
-  //DOWNLOAD PHOTOS ????????????
-  //
-  //
-  //
-  //
+  
   var GetUrl = url+"/getproject";
+
+  var projectDetails = {"projectId" : projectId};
 
   $.ajax({
       url: GetUrl,
       type: 'GET',
+      dataType: 'json',
+      data: projectDetails,
       success:function(result){
         
         //success
         console.log('got all the users projects-> '+ JSON.stringify(result));
 
 
-        return result;
+       	callback(result);
 
       },
       error: function (error) {
@@ -395,7 +380,7 @@ function getProjects (url) {
 
         var  res = {"error" : error};
 
-        return res;
+       	callback(error);
 
       }
 
