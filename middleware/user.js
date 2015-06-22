@@ -89,12 +89,7 @@ exports.getColours = function (req, res){
 	});
 }
 
-exports.removeColour = function (req, res){
-	if(!req.body.hasOwnProperty('colour')){
-		res.statusCode = 400;
-    	return res.send('Error 400: Post syntax incorrect.');
-	}
-
+exports.removeColours = function (req, res){
 	var id = auth.getId(req, res);
 
 	query = client.query('delete from avcolours where user_id = $1 and rgb = $2', [id, req.body.colour]);
@@ -102,7 +97,7 @@ exports.removeColour = function (req, res){
 	query.on('end', function(result){
 		if(result.rowCount === 0){
 			res.statusCode = 400;
-			return res.send('Error 400: could not delete colour');
+			return res.send('Error 400: could not delete colours');
 		}
 		else{
 			return res.json('Successfully Deleted');
