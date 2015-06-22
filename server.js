@@ -80,6 +80,8 @@ app.get('/api/project/:id', function(req, res){
 
 app.get('/api/colours', user.getColours);
 
+app.get('/api/projectDetails', user.getProjectDetails);
+
 app.post('/api/colour', user.addColour);
 
 app.post('/api/project', user.uploadFile);
