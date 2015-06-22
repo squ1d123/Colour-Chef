@@ -93,7 +93,7 @@ exports.getColours = function (req, res){
 exports.removeColours = function (req, res){
 	var id = auth.getId(req, res);
 
-	query = client.query('delete from avcolours where user_id = $1 and rgb = $2', [id, req.body.colour]);
+	query = client.query('delete from avcolours where user_id = $1', [id]);
 
 	query.on('end', function(result){
 		if(result.rowCount === 0){
