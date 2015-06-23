@@ -131,6 +131,22 @@ exports.addColour = function (req, res){
 
 }
 
+exports.getProject = function (req, res){
+	
+	query = client.query('SELECT link from projects where project_id = $1', [req.params.id]);
+
+	query.on('end', function(result){
+	if(result.rowCount === 0){
+	  res.statusCode = 400;
+	  res.send('Error: id not found');
+	}
+	else{
+	  //send file to be downloaded
+	  res.download('./' + result.rows[0].link);
+	}
+	})
+}
+
 exports.getProjectDetails = function (req, res){
 	//gain id from token
 	var id = auth.getId(req, res);

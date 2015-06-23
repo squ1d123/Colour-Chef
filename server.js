@@ -62,21 +62,7 @@ app.all('/api/*', auth.authToken);
 /* Adds a new user to the system and returns a valid access token*/
 app.post('/newUser', user.createUser);
 
-app.get('/api/project/:id', function(req, res){
-
-  query = client.query('SELECT link from projects where project_id = $1', [req.params.id]);
-
-  query.on('end', function(result){
-    if(result.rowCount === 0){
-      res.statusCode = 400;
-      res.send('Error: id not found');
-    }
-    else{
-      //send file to be downloaded
-      res.download('./' + result.rows[0].link);
-    }
-  })
-});
+app.get('/api/project/:id', user.getProject)
 
 app.get('/api/colours', user.getColours);
 
@@ -86,20 +72,6 @@ app.post('/api/colour', user.addColour);
 
 app.post('/api/project', user.uploadFile);
 
-app.post('/api/photo',function(req,res){
-  if(done==true){
-    var id = auth.getId(req, res);
-    query = client.query('insert into projects(user_id, link) values($1, $2)', [id, req.files.userPhoto.path]);
-
-    query.on('end', function(result){
-      if(result.rowCount === 0){
-        res.statusCode = 400;
-        res.send('Error: id not found');
-      }
-      res.json('file uploaded');  
-    });
-  }
-});
 
 /* Route for logging in, which must be done before anything
     or a new user must be made */
