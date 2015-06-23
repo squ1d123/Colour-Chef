@@ -311,7 +311,7 @@ function new_project (url,data, projectName, privateP) {
 */
 function getprojectDetails (url,callback) {
 
-	var GetUrl = url+"/getprojectDetails";
+	var GetUrl = url+"/api/projectDetails";
 
 	$.ajax({
       url: GetUrl,
@@ -350,18 +350,14 @@ function getprojectDetails (url,callback) {
   donwloads images of projects the user has done in the past
 */
 
-function getProjects (url, projectId, callback) {
+function getProject (url, projectId, callback) {
 
   
-  var GetUrl = url+"/getproject";
-
-  var projectDetails = {"projectId" : projectId};
+  var GetUrl = url+"/api/project/"+projectId;
 
   $.ajax({
       url: GetUrl,
       type: 'GET',
-      dataType: 'json',
-      data: projectDetails,
       success:function(result){
         
         //success
