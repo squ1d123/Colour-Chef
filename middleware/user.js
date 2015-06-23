@@ -131,6 +131,23 @@ exports.addColour = function (req, res){
 
 }
 
+exports.getProjectDetails = function (req, res){
+	//gain id from token
+	var id = auth.getId(req, res);
+
+	query = client.query('select project_name from projects where user_id = $1', [id]);
+
+	query.on('end', function(result){
+		if (result.rowCount === 0){
+			res.statusCode = 400;
+			return res.send('Error 400: no projects found');
+		}
+		else{
+			return result.rows;
+		}
+	});
+}
+
 exports.uploadFile = function(req, res){
 	if(!req.body.hasOwnProperty('data') || !req.body.hasOwnProperty('project')
 		|| !req.body.hasOwnProperty('privateP')){

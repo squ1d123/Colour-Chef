@@ -273,13 +273,8 @@ function delete_colour (url) {
 */
 function new_project (url,data, projectName, privateP) {
 
-  //
-  //
-  //upload a file here 
-  //
-  //
-  //
-
+	//data is the base64 image data
+  
   var Posturl = url+"/api/project";
   var projectDetails = {"data":data,"project" : projectName, "privateP" : privateP};
 
@@ -308,37 +303,68 @@ function new_project (url,data, projectName, privateP) {
 
 }
 
+
+
+
+/*
+	get all user project details, have this method because i want to know how many projects the user has, and i cant request all at once (string will be to large)
+*/
+function getprojectDetails (url,callback) {
+
+	var GetUrl = url+"/api/projectDetails";
+
+	$.ajax({
+      url: GetUrl,
+      type: 'GET',
+      success:function(result){
+        
+        //success
+        console.log('got all the users projects details-> '+ JSON.stringify(result));
+
+
+        callback(result);
+
+      },
+      error: function (error) {
+
+        // error
+
+        console.log("error geting users projects details -> "+ JSON.stringify(error));
+
+
+        var  res = {"error" : error};
+
+        return callback(res);
+
+      }
+
+    });
+
+}
+
+
+
 //get project
 
 /*
   donwloads images of projects the user has done in the past
 */
 
-function getProjects (url, user) {
+function getProject (url, projectId, callback) {
 
-  //
-  //
-  //
-  //DOWNLOAD PHOTOS ????????????
-  //
-  //
-  //
-  //
-  var GetUrl = url+"/getproject";
-  var userDetails = {"user" : user};
+  
+  var GetUrl = url+"/api/project/"+projectId;
 
   $.ajax({
       url: GetUrl,
       type: 'GET',
-      dataType: 'json',
-      data: userDetails,
       success:function(result){
         
         //success
         console.log('got all the users projects-> '+ JSON.stringify(result));
 
 
-        return result;
+       	callback(result);
 
       },
       error: function (error) {
@@ -350,7 +376,7 @@ function getProjects (url, user) {
 
         var  res = {"error" : error};
 
-        return res;
+       	callback(error);
 
       }
 
