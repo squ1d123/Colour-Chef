@@ -141,8 +141,18 @@ exports.getProject = function (req, res){
 	  res.send('Error: id not found');
 	}
 	else{
-	  //send file to be downloaded
-	  res.download('./' + result.rows[0].link);
+	  	//send file to be downloaded
+	  	filename = result.rows[0].link;
+		console.log(filename);
+		fs.readFile(filename, function(err, data){
+			if(err){
+				console.log(err);
+			}
+			else{
+				console.log(data);
+				res.send(data);
+			}
+		})
 	}
 	})
 }
@@ -159,11 +169,7 @@ exports.getProjectDetails = function (req, res){
 			return res.send('Error 400: no projects found');
 		}
 		else{
-			filename = result.rows[0].link;
-			console.log(filename);
-			fs.open(filename, function(data){
-				res.send(data);
-			})
+			return result.rows;
 		}
 	});
 }

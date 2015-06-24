@@ -148,9 +148,20 @@ setToken();
     var q = $("#text1").val();
     alert("Click "+q);
     var jsonUrl = "/api/project/"+q;
-    //send a get request on a different window because ajaz doent allow downloading
-    //files, by doing this we pass the access token in the url instead
-    window.location = jsonUrl + '?access_token='+window.localStorage.getItem('token');
+
+    $.ajax({
+      url: jsonUrl,
+      type: "GET",
+      success: function(data){
+        alert('sucessfull');
+        console.log(data);
+      },
+      error: function(data){
+        alert('failed');
+      }
+
+    });
+    
   });
 
   $( "#getColoursButton" ).bind( "click", function(event, ui) {
