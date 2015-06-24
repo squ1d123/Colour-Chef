@@ -57,7 +57,6 @@ exports.authToken = function(req, res, next){
 
               //sql sucessful so just return back
               query.on('row', function(result){
-                console.log('auth sucessfull');
                 return next();
               });
 

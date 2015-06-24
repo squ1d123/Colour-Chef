@@ -143,13 +143,11 @@ exports.getProject = function (req, res){
 	else{
 	  	//send file to be downloaded
 	  	filename = result.rows[0].link;
-		console.log(filename);
 		fs.readFile(filename, function(err, data){
 			if(err){
 				console.log(err);
 			}
 			else{
-				console.log(data);
 				res.send(data);
 			}
 		})
@@ -164,7 +162,6 @@ exports.getProjectDetails = function (req, res){
 	query = client.query('select project_id, project_name from projects where user_id = $1', [id]);
 
 	query.on('end', function(result){
-		console.log(result);
 		if (result.rowCount === 0){
 			res.statusCode = 400;
 			return res.send('Error 400: no projects found');
