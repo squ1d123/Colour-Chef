@@ -50,7 +50,6 @@ var addDetails = function(req, res, next){
 	query = client.query('select id from logins where username = $1', [req.body.username]);
 
 	query.on('end', function(result){
-		console.log(result);
 		if(result.rowCount === 0){
 			res.statusCode = 400;
 	    	res.send('Cannot find id');	
