@@ -50,6 +50,9 @@
         <label for="text-2">Delete Colour</label>
         <input type="submit" value="Delete Colour" id="delColourButton" />
 
+        <label for="text-2">Project Details</label>
+        <input type="submit" value="Project Details" id="projDetails" />
+
     </div><!-- /content -->
 
     <div data-role="footer">
@@ -148,6 +151,24 @@ setToken();
     var q = $("#text1").val();
     alert("Click "+q);
     var jsonUrl = "/api/project/"+q;
+
+    $.ajax({
+      url: jsonUrl,
+      type: "GET",
+      success: function(data){
+        alert('sucessfull');
+        console.log(data);
+      },
+      error: function(data){
+        alert('failed');
+      }
+
+    });
+    
+  });
+
+  $( "#projDetails" ).bind( "click", function(event, ui) {
+    var jsonUrl = "/api/projectDetails/";
 
     $.ajax({
       url: jsonUrl,

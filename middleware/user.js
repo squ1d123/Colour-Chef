@@ -164,12 +164,13 @@ exports.getProjectDetails = function (req, res){
 	query = client.query('select project_id, project_name from projects where user_id = $1', [id]);
 
 	query.on('end', function(result){
+		console.log(result);
 		if (result.rowCount === 0){
 			res.statusCode = 400;
 			return res.send('Error 400: no projects found');
 		}
 		else{
-			return result.rows;
+			return res.send(result.rows);
 		}
 	});
 }
