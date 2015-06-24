@@ -151,7 +151,7 @@ exports.getProjectDetails = function (req, res){
 	//gain id from token
 	var id = auth.getId(req, res);
 
-	query = client.query('select project_name from projects where user_id = $1', [id]);
+	query = client.query('select project_id, project_name from projects where user_id = $1', [id]);
 
 	query.on('end', function(result){
 		if (result.rowCount === 0){
@@ -159,7 +159,11 @@ exports.getProjectDetails = function (req, res){
 			return res.send('Error 400: no projects found');
 		}
 		else{
-			return result.rows;
+			filename = result.rows[0].link;
+			console.log(filename);
+			fs.open(filename, function(data){
+				res.send(data);
+			})
 		}
 	});
 }
@@ -170,7 +174,6 @@ exports.uploadFile = function(req, res){
 		res.statusCode = 400;
     	return res.send('Error 400: Post syntax incorrect.');
 	}
-	var fs = require('fs');
 	id = auth.getId(req, res);
 	var filename = "./uploads/" + id + Date.now();
 	

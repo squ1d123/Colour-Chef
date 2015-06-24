@@ -1,7 +1,6 @@
 // use the express middleware
 var express = require('express');
 var password = require('password-hash-and-salt');
-var multer  = require('multer');
 var auth = require('./middleware/auth.js');
 var user = require('./middleware/user.js');
 
@@ -35,20 +34,6 @@ app.use(express.static(__dirname));
 // make sure we use CORS to avoid cross domain problems
 app.use(cors());
 
-/*Configure the multer.*/
-
-app.use(multer({ dest: './uploads/',
- rename: function (fieldname, filename) {
-    return filename+Date.now();
-  },
-onFileUploadStart: function (file) {
-  console.log(file.originalname + ' is starting ...')
-},
-onFileUploadComplete: function (file) {
-  console.log(file.fieldname + ' uploaded to  ' + file.path)
-  done=true;
-}
-}));
 
 /*Handling routes.*/
 
