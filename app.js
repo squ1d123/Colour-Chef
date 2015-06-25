@@ -3,7 +3,7 @@
 /*
 	called to log the user into there account
 */
-function login (url, username, password) {
+function login (url, username, password, callback) {
 
 	var Posturl = url+'/login';
 	var loginDetails = {"user" : username, "password" : password};
@@ -23,7 +23,7 @@ function login (url, username, password) {
       	setToken();
 
         //return user details
-        return true;
+        callback(true);
 
       },
       error: function (error) {
@@ -33,7 +33,7 @@ function login (url, username, password) {
         alert(error);
 
 
-        return false;
+        callback(false);
 
       }
 
@@ -50,18 +50,21 @@ function logout (url) {
   $.ajax({
       url: Posturl,
       type: 'Post',
+      dataType: 'json',
+      data: {"token": window.localStorage.getItem("token")},
+
       //dont need file with user name, just remove the token???
       success:function(result){
         
         //success
-        console.log("logged out");
+        alert("you have logged out");
         return true;        
 
       },
       error: function (error) {
 
         // error
-        console.log("error ion log out -> "+ JSON.stringify(error));
+        console.log("error in log out -> "+ JSON.stringify(error));
 
         alert(error);
 
@@ -89,7 +92,7 @@ function setToken () {
 /*
 	trys to enter the user into the database.
 */
-function create_new_user (url, name, username, password, age, difficulty) {
+function create_new_user (url, name, username, password, age, difficulty, callback) {
 	var Posturl = url+'/newUser';
     var newUser = { "name" : name,"username" : username,"password" : password, "age" : age, "difficulty" : difficulty };
 
@@ -108,7 +111,7 @@ function create_new_user (url, name, username, password, age, difficulty) {
 
         setToken();
 
-        return true;
+        callback(true);
 
       },
       error: function (error) {
@@ -118,7 +121,7 @@ function create_new_user (url, name, username, password, age, difficulty) {
         console.log("error in create new user -> "+ JSON.stringify(error));
         alert(error);
 
-        return false;
+        callback(false);
 
       }
 
@@ -197,8 +200,8 @@ function add_colour (url, rgb) {
 /*
 	gets the colours the user has made
 */
-function get_colours (url) {
-	var GetUrl = url+'/colours';
+function get_colours (url,callback) {
+	var GetUrl = url+'/api/colours';
 
 	$.ajax({
       url: GetUrl,
@@ -208,13 +211,13 @@ function get_colours (url) {
         //success
         console.log('got all the users colours-> '+ JSON.stringify(result));
 
-       var colour=[];
+       var colour=['rgb(192,0,0)','rgb(255,255,0)', 'rgb(0,0,192)'];
 
        for(var i=0;i<result.length;i++){
         colour.push(result[i].rgb);
        }
 
-        return colour;
+        callback(colour);
 
       },
       error: function (error) {
@@ -376,7 +379,7 @@ function getProject (url, projectId, callback) {
 
         var  res = {"error" : error};
 
-       	callback(error);
+       	callback(res);
 
       }
 
@@ -385,6 +388,34 @@ function getProject (url, projectId, callback) {
 
 }
 
+
+
+function DeleteProjects (url,id, callback) {
+
+	var DelUrl = url+'/api/project/'+id;
+
+	$.ajax({
+      url: DelUrl,
+      type: 'DELETE',
+      success:function(result){
+        
+        //success
+
+        console.log("deleted the project "+id);
+        callback(true);
+
+      },
+      error: function (error) {
+
+      	// error
+
+        console.log("error deleteing the project -> "+ JSON.stringify(error));
+
+      callback(false);
+      }
+
+    });
+}
 
 
 //get friends project
