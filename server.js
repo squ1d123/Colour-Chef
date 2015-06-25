@@ -75,6 +75,9 @@ app.post('/logout',[auth.removeToken], function(req, res){
 app.delete('/api/colours', user.removeColours);
 
 
+app.delete('/api/project/:id',user.removeProject);
+
+
 // use PORT set as an environment variable
 var server = app.listen(process.env.PORT || 50000, function() {
     console.log('Listening on port %d', server.address().port);
