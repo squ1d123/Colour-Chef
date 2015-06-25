@@ -130,6 +130,28 @@ exports.addColour = function (req, res){
 
 }
 
+
+exports.removeProject = function (req, res) {
+	var projectid = req.params.id;
+
+	query = client.query('delete from projects where project_id = $1', [req.params.id]);
+
+	query.on('end', function(result){
+		if(result.rowCount === 0){
+			res.statusCode = 400;
+			return res.send('Error 400: could not delete project');
+		}
+		else{
+			return res.json('Successfully Deleted');
+		}
+	})
+
+
+}
+
+
+
+
 exports.getProject = function (req, res){
 	
 	query = client.query('SELECT link from projects where project_id = $1', [req.params.id]);
